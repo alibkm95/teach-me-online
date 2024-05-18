@@ -8,6 +8,7 @@ import { FaHome } from "react-icons/fa";
 import { BiSolidCategoryAlt } from "react-icons/bi";
 import { PiHeadsetFill } from "react-icons/pi";
 import { RiArticleFill } from "react-icons/ri";
+import { IoClose } from "react-icons/io5";
 
 const Menu = () => {
 
@@ -26,6 +27,9 @@ const Menu = () => {
     <div className='flex-1'>
       <div className={`flex flex-col fixed top-24 right-2 bg-base-300 p-4 rounded-box border border-gray-600 transition-all ${isMenuOpen ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'} duration-200 z-[999] lg:static lg:flex-row-reverse lg:p-0 lg:border-0 lg:items-center lg:translate-x-0 lg:opacity-100`}>
         <div className="">
+          <button className=" btn btn-sm btn-square btn-ghost mb-4 lg:hidden" onClick={toggleMenu}>
+            <IoClose size={25} />
+          </button>
           <form className='flex gap-1 items-center justify-center pb-2 border-b border-b-emerald-700 lg:p-0 lg:border-0' onSubmit={submitHandler}>
             <input
               name='search-input'
