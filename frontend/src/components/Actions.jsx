@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { Link } from 'react-router-dom'
 
 import { MenuContext } from '../context/MenuAndCartConext';
 
@@ -20,9 +21,9 @@ const Actions = () => {
         </button>
       </div>
       <div>
-        <a className="btn btn-sm px-2 btn-ghost md:btn-md hover:bg-base-100">
+        <Link to='/panel/id' className="btn btn-sm px-2 btn-ghost md:btn-md hover:bg-base-100">
           <FaUserCircle className='text-2xl lg:text-3xl' />
-        </a>
+        </Link>
       </div>
       <div className='lg:hidden'>
         <button onClick={toggleMenu} className="btn btn-sm px-2 btn-ghost md:btn-md hover:bg-base-100">
