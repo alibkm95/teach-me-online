@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom'
 
 import courseImg from '../assets/JavaScript.png'
 
+import { FaChalkboardTeacher } from "react-icons/fa";
+import { FaStar } from "react-icons/fa6";
+
 const ProductCart = () => {
   return (
     <div className=''>
@@ -14,8 +17,16 @@ const ProductCart = () => {
               Course title
             </Link>
           </h2>
+          <ul className="flex justify-between gap-x-2">
+            <li className='flex items-center gap-2 font-bold'>
+              <FaChalkboardTeacher size={20} className='text-primary' /> the teachers name
+            </li>
+            <li className='flex items-center gap-2 font-bold'>
+              <FaStar size={20} className='text-warning' /> 4.2
+            </li>
+          </ul>
           <p className='line-clamp-3 line-clamp-fallback'>
-          If a dog chews shoes whose shoes does he choose?If a dog chews shoes whose shoes does he choose?If a dog chews shoes whose shoes does he choose?If a dog chews shoes whose shoes does he choose?If a dog chews shoes whose shoes does he choose?
+            If a dog chews shoes whose shoes does he choose?If a dog chews shoes whose shoes does he choose?If a dog chews shoes whose shoes does he choose?If a dog chews shoes whose shoes does he choose?If a dog chews shoes whose shoes does he choose?
           </p>
           <div className="card-actions justify-end">
             <Link to='/courseDetailes/123' className="btn text-white">
