@@ -6,7 +6,7 @@ import courseImg from '../assets/JavaScript.png'
 const ProductCart = () => {
   return (
     <div className=''>
-      <div className="card card-compact max-w-96 bg-base-100 shadow-xl transition-all duration-150 hover:-translate-y-2">
+      <div className="card card-compact max-w-96 bg-base-100 shadow-xl">
         <figure className='bg-green-500 p-2'><img className='aspect-square' src={courseImg} alt="Shoes" /></figure>
         <div className="card-body">
           <h2 className="card-title">
