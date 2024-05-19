@@ -5,6 +5,7 @@ import LatestCourses from '../components/LatestCourses'
 import FrontendCourses from '../components/FrontendCourses'
 import BackendCourses from '../components/BackendCourses'
 import Banner from '../components/Banner'
+import FAQ from '../components/FAQ'
 
 const Home = () => {
   return (
@@ -14,6 +15,7 @@ const Home = () => {
       <LatestCourses />
       <FrontendCourses />
       <BackendCourses />
+      <FAQ />
     </div>
   )
 }
