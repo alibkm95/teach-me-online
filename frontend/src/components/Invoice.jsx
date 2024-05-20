@@ -7,8 +7,8 @@ const Invoice = () => {
     <>
       <div className="flex gap-2">
         <input
-          name='search-input'
-          id='search-input'
+          name='discount-input'
+          id='discount-input'
           type="text"
           placeholder="insert your discount code ..."
           className="input input-sm input-bordered w-full max-w-xs"
