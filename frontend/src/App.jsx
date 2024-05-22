@@ -6,7 +6,6 @@ import Home from './pages/Home'
 import Categories from './pages/Categories'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
-import Validate from './pages/Validate'
 import Recover from './pages/Recover'
 import CourseDetailes from './pages/CourseDetailes'
 import CourseContents from './pages/CourseContents'
@@ -29,7 +28,6 @@ function App() {
         <Route path='/categories' element={<Categories />} />
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
-        <Route path='/validate' element={<Validate />} />
         <Route path='/recover' element={<Recover />} />
         <Route path='/courseDetailes/:id' element={<CourseDetailes />} />
         <Route path='/courseContents/:id' element={<CourseContents />} />
