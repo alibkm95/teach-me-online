@@ -1,3 +1,7 @@
+html {
+  scroll-behavior: smooth;
+}
+
 .swiper-wrapper {
   padding-block: 3rem;
 }
