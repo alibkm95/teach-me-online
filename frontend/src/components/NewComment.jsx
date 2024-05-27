@@ -4,7 +4,7 @@ import Score from './Score';
 
 import { FaCommentAlt } from "react-icons/fa";
 
-const NewComment = () => {
+const NewComment = ({ onCancel }) => {
   return (
     <form id='new-comment-form'>
       <label className="form-control">
@@ -35,7 +35,7 @@ const NewComment = () => {
         <button type="submit" className='btn btn-success text-white'>
           Submit
         </button>
-        <button type="button" className="btn btn-error btn-outline">
+        <button type="button" className="btn btn-error btn-outline" onClick={onCancel}>
           Cancel
         </button>
       </div>
