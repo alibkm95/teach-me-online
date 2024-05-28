@@ -6,12 +6,12 @@ import Pagination from './Pagination'
 const Conversations = () => {
   return (
     <div>
-      <Message messageType='user' />
-      <Message messageType='admin' />
-      <Message messageType='user' />
-      <Message messageType='user' />
-      <Message messageType='user' />
-      <Message messageType='admin' />
+      <Message file={true} messageType='user' />
+      <Message file={true} messageType='admin' />
+      <Message file={true} messageType='user' />
+      <Message file={true} messageType='user' />
+      <Message file={true} messageType='user' />
+      <Message file={true} messageType='admin' />
       <div>
         <Pagination />
       </div>
