@@ -10,7 +10,7 @@ const ArticleCart = () => {
         <figure className='bg-green-500 p-2'><img className='aspect-square' src={courseImg} alt="Shoes" /></figure>
         <div className="card-body">
           <h2 className="card-title">
-            <Link className='hover:text-emerald-700' to='/courseDetailes/123'>
+            <Link className='hover:text-emerald-700' to='/article/123'>
               Article Title
             </Link>
           </h2>
@@ -18,7 +18,7 @@ const ArticleCart = () => {
             If a dog chews shoes whose shoes does he choose?If a dog chews shoes whose shoes does he choose?If a dog chews shoes whose shoes does he choose?If a dog chews shoes whose shoes does he choose?If a dog chews shoes whose shoes does he choose?
           </p>
           <div className="card-actions justify-end">
-            <Link to='/courseDetailes/123' className="btn text-white">
+            <Link to='/article/123' className="btn text-white">
               Read more
             </Link>
           </div>
