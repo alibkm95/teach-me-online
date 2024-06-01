@@ -10,7 +10,7 @@ const fileUpload = require('express-fileupload')
 const connectDB = require('./db/connect')
 
 // ! => routers
-
+const authRouter = require('./routes/authRoutes')
 
 const notFoundMiddleware = require('./middlewares/notFound')
 const errorHandlerMiddleware = require('./middlewares/errorHandler')
@@ -21,7 +21,7 @@ app.use(express.static('./public'))
 app.use(fileUpload())
 
 // ! => routes
-
+app.use('/api/auth', authRouter)
 
 // ! => err midelwares
 app.use(notFoundMiddleware)
