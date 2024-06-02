@@ -24,7 +24,7 @@ const UserSchema = new mongoose.Schema({
   role: {
     type: String,
     enum: {
-      values: ['USER', 'INSTRUCTOR', 'ADMIN', 'ROOTADMIN'],
+      values: ['USER', 'INSTRUCTOR', 'ROOTADMIN'],
       message: '{VALUE} is not supported as a valid role'
     },
     default: 'USER'

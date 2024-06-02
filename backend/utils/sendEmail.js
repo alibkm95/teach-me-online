@@ -6,7 +6,7 @@ const sendEmail = async ({to, subject, html}) => {
   const transporter = nodeMailer.createTransport(nodeMailerConfig);
 
   return transporter.sendMail({
-    from: 'Teach me online',
+    from: 'DREAM_HOME',
     to,
     subject,
     html,
