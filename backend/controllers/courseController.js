@@ -48,19 +48,108 @@ const createNewCourse = async (req, res) => {
 }
 
 const getAllCourses = async (req, res) => {
-  res.send('getAllCourses')
+  const {
+    category,
+    lang,
+    sort,
+    search
+  } = req.body
+
+  let queryObj = {
+    isPublish: true
+  }
+
+  if (category && category !== 'all') {
+    queryObj.category = { $in: [category] }
+  }
+
+  if (lang && lang !== 'all') {
+    queryObj.lang = { $in: [lang] }
+  }
+
+  if (search) {
+    queryObj.tags = { $in: search.split(" ") }
+  }
+
+  let result = Course.find(queryObj)
+
+  const sortOptions = {
+    newest: '-createdAt',
+    oldest: 'createdAt',
+    popular: 'score',
+    AZ: 'title',
+    ZA: '-title',
+  }
+
+  if (sort && sortOptions[sort]) {
+    result = result.sort(sortOptions[sort])
+  } else {
+    result = result.sort('-createdAt')
+  }
+
+  const page = Number(req.query.page) || 1
+  const limit = 12
+  const skip = (page - 1) * limit
+
+  result = result.skip(skip).limit(limit)
+
+  const courses = await result
+  const totalCourses = await Course.countDocuments(queryObj)
+  const numOfPages = Math.ceil(totalCourses / limit)
+
+  res.status(StatusCodes.OK).json({ courses, totalCourses, numOfPages })
 }
 
 const getSingleCourse = async (req, res) => {
-  res.send('getSingleCourse')
+  const { id: courseId } = req.params
+
+  const course = await Course.findOne({ _id: courseId })
+
+  if (!course) {
+    throw new CustomError.NotFoundError('can not find any course with provided information')
+  }
+
+  res.status(StatusCodes.OK).json({ course })
 }
 
 const updateCourse = async (req, res) => {
-  res.send('updateCourse')
+  const { id: courseId } = req.params
+
+  const course = await Course.findOneAndUpdate(
+    { _id: courseId },
+    req.body,
+    { new: true, runValidators: true }
+  )
+
+  if (!course) {
+    throw new CustomError.NotFoundError('there is no such a course')
+  }
+
+  res.status(StatusCodes.OK).json({ course })
 }
 
 const deleteCourse = async (req, res) => {
-  res.send('deleteCourse')
+  const { id: courseId } = req.params
+
+  const course = await Course.findOne({ _id: courseId })
+
+  if (!course) {
+    throw new CustomError.NotFoundError('there is no such an course with provided informations')
+  }
+
+  const coverImage = course.cover
+  const coverImagePath = path.parse(coverImage)
+
+  if (coverImage.length && fs.existsSync(path.join(__dirname, `../public/assets/courses/${coverImagePath.base}`))) {
+    fs.unlinkSync(path.join(__dirname, `../public/assets/courses/${coverImagePath.base}`), err => {
+      if (err) console.log(err)
+    })
+  }
+
+  await course.deleteOne()
+
+  res.status(StatusCodes.OK).json({msg: 'course removed successfully!'})
+
 }
 
 const uploadCourseCover = async (file, req) => {
