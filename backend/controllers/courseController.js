@@ -60,15 +60,15 @@ const getAllCourses = async (req, res) => {
   }
 
   if (category && category !== 'all') {
-    queryObj.category = { $in: [category] }
+    queryObj.categories = { $in: [category.toLowerCase()] }
   }
 
   if (lang && lang !== 'all') {
-    queryObj.lang = { $in: [lang] }
+    queryObj.lang = { $in: [lang.toLowerCase()] }
   }
 
   if (search) {
-    queryObj.tags = { $in: search.split(" ") }
+    queryObj.tags = { $in: search.toLowerCase().split(" ") }
   }
 
   let result = Course.find(queryObj)
