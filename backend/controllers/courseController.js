@@ -218,6 +218,15 @@ const getSingleCourseContents = async (req, res) => {
     throw new CustomError.NotFoundError('there is no course with provided informations!')
   }
 
+  const isUserSubscribed = await UserCourse.findOne({
+    user: req.user.userId,
+    course: course._id
+  })
+
+  if (!isUserSubscribed && req.user.role === 'USER') {
+    throw new CustomError.UnauthorizedError('you are not subscribe to this course yet!')
+  }
+
   const content = await Season.find({ course: course._id })
     .populate({
       path: 'Episodes'
@@ -241,6 +250,15 @@ const getSingleEpisode = async (req, res) => {
 
   if (!episode) {
     throw new CustomError.NotFoundError('there is no episode with provided information')
+  }
+
+  const isUserSubscribed = await UserCourse.findOne({
+    user: req.user.userId,
+    course: episode.course._id
+  })
+
+  if(!isUserSubscribed && req.user.role === 'USER') {
+    throw new CustomError.UnauthorizedError('you are not subscribe to this course yet!')
   }
 
   res.status(StatusCodes.OK).json(episode)
@@ -323,7 +341,7 @@ const uploadCourseCover = async (file, req) => {
   return `${req.protocol}://${req.get('host')}/assets/courses/${fileName}`
 }
 
-// TODO => check for user access to course data
+// TODO => get total duration and course total students
 
 module.exports = {
   createNewCourse,
