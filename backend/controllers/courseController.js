@@ -2,6 +2,7 @@ const Course = require('../models/Course')
 const Instructor = require('../models/Instructor')
 const Season = require('../models/Season')
 const Episode = require('../models/Episode')
+const UserCourse = require('../models/UserCourse')
 const { StatusCodes } = require('http-status-codes')
 const CustomError = require('../errors')
 const fs = require('fs')
@@ -106,6 +107,29 @@ const addEpisode = async (req, res) => {
   res.status(StatusCodes.CREATED).json({ episode })
 }
 
+const subscribeUserToCourse = async (req, res) => {
+  const { id: courseId } = req.params
+
+  const course = await Course.findOne({ _id: courseId })
+
+  if (!course) {
+    throw new CustomError.NotFoundError('there is no course with provided informations!')
+  }
+
+  const isAlreadySubscribed = await UserCourse.findOne({ course: course._id })
+
+  if (isAlreadySubscribed) {
+    throw new CustomError.BadRequestError('you already subscribed to this course')
+  }
+
+  const userCourse = await UserCourse.create({
+    user: req.user.userId,
+    course: course._id
+  })
+
+  res.status(StatusCodes.CREATED).json({ course })
+}
+
 const getAllCourses = async (req, res) => {
   const {
     category,
@@ -131,6 +155,13 @@ const getAllCourses = async (req, res) => {
   }
 
   let result = Course.find(queryObj)
+    .populate({
+      path: 'instructor',
+      populate: {
+        path: 'user',
+        select: 'name profile role'
+      }
+    })
 
   const sortOptions = {
     newest: '-createdAt',
@@ -163,6 +194,13 @@ const getSingleCourse = async (req, res) => {
   const { id: courseId } = req.params
 
   const course = await Course.findOne({ _id: courseId })
+    .populate({
+      path: 'instructor',
+      populate: {
+        path: 'user',
+        select: 'name profile role'
+      }
+    })
 
   if (!course) {
     throw new CustomError.NotFoundError('can not find any course with provided information')
@@ -285,7 +323,7 @@ const uploadCourseCover = async (file, req) => {
   return `${req.protocol}://${req.get('host')}/assets/courses/${fileName}`
 }
 
-// TODO => check user course access befor returning data
+// TODO => check for user access to course data
 
 module.exports = {
   createNewCourse,
@@ -296,5 +334,6 @@ module.exports = {
   addSeason,
   addEpisode,
   getSingleCourseContents,
-  getSingleEpisode
+  getSingleEpisode,
+  subscribeUserToCourse
 }

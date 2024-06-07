@@ -10,7 +10,8 @@ const {
   addSeason,
   addEpisode,
   getSingleCourseContents,
-  getSingleEpisode
+  getSingleEpisode,
+  subscribeUserToCourse
 } = require('../controllers/courseController')
 
 const {
@@ -28,12 +29,16 @@ router
   .post(authenticateUser, authorizePermissions('INSTRUCTOR', 'ROOTADMIN'), addSeason)
 
 router
+  .route('/subscribe/:id')
+  .post(authenticateUser, subscribeUserToCourse)
+
+router
   .route('/episode/:courseId/:seasonId')
   .post(authenticateUser, authorizePermissions('ROOTADMIN', 'INSTRUCTOR'), addEpisode)
 
 router
-    .route('/content/episode/:id')
-    .get(authenticateUser, getSingleEpisode)
+  .route('/content/episode/:id')
+  .get(authenticateUser, getSingleEpisode)
 
 router
   .route('/content/:id')
