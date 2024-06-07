@@ -1,5 +1,7 @@
 const Course = require('../models/Course')
 const Instructor = require('../models/Instructor')
+const Season = require('../models/Season')
+const Episode = require('../models/Episode')
 const { StatusCodes } = require('http-status-codes')
 const CustomError = require('../errors')
 const fs = require('fs')
@@ -45,6 +47,63 @@ const createNewCourse = async (req, res) => {
   } catch (error) {
     throw new CustomError.BadRequestError('adding new Course Error!')
   }
+}
+
+const addSeason = async (req, res) => {
+
+  const { id: courseId } = req.params
+  const { title } = req.body
+
+  if (!title) {
+    throw new CustomError.BadRequestError('season title must be provided!')
+  }
+
+  const course = await Course.findOne({ _id: courseId })
+
+  if (!course) {
+    throw new CustomError.NotFoundError('no course founded with provided info!')
+  }
+
+  const season = await Season.create({
+    course: courseId,
+    title
+  })
+
+  res.status(StatusCodes.CREATED).json({ season })
+}
+
+const addEpisode = async (req, res) => {
+  const { courseId, seasonId } = req.params
+  const { title } = req.body
+
+  if (!title) {
+    throw new CustomError.BadRequestError('episode title must be provided!')
+  }
+
+  const course = await Course.findOne({ _id: courseId })
+
+  if (!course) {
+    throw new CustomError.NotFoundError('there is no course with provided information!')
+  }
+
+  const season = await Season.findOne({ _id: seasonId })
+
+  if (!season) {
+    throw new CustomError.NotFoundError('there is no season with provided information!')
+  }
+
+  const minTime = 5 * 60 * 1000
+  const maxTime = 30 * 60 * 1000
+  const randomDuration = Math.floor(Math.random() * (maxTime - minTime + 1)) + minTime
+
+  const episode = await Episode.create({
+    course: course._id,
+    season: season._id,
+    title,
+    duration: randomDuration
+  })
+
+  res.status(StatusCodes.CREATED).json({ episode })
 }
 
 const getAllCourses = async (req, res) => {
@@ -112,6 +171,43 @@ const getSingleCourse = async (req, res) => {
   res.status(StatusCodes.OK).json({ course })
 }
 
+const getSingleCourseContents = async (req, res) => {
+  const { id: courseId } = req.params
+
+  const course = await Course.findOne({ _id: courseId })
+
+  if (!course) {
+    throw new CustomError.NotFoundError('there is no course with provided informations!')
+  }
+
+  const content = await Season.find({ course: course._id })
+    .populate({
+      path: 'Episodes'
+    })
+
+  res.status(StatusCodes.OK).json({ content })
+}
+
+const getSingleEpisode = async (req, res) => {
+  const { id: episodeId } = req.params
+
+  const episode = await Episode.findOne({ _id: episodeId })
+    .populate({
+      path: 'course',
+      select: 'title cover'
+    })
+    .populate({
+      path: 'season',
+      select: 'title'
+    })
+
+  if (!episode) {
+    throw new CustomError.NotFoundError('there is no episode with provided information')
+  }
+
+  res.status(StatusCodes.OK).json(episode)
+}
+
 const updateCourse = async (req, res) => {
   const { id: courseId } = req.params
 
@@ -148,7 +244,7 @@ const deleteCourse = async (req, res) => {
 
   await course.deleteOne()
 
-  res.status(StatusCodes.OK).json({msg: 'course removed successfully!'})
+  res.status(StatusCodes.OK).json({ msg: 'course removed successfully!' })
 
 }
 
@@ -189,10 +285,16 @@ const uploadCourseCover = async (file, req) => {
   return `${req.protocol}://${req.get('host')}/assets/courses/${fileName}`
 }
 
+// TODO => check user course access befor returning data
+
 module.exports = {
   createNewCourse,
   getAllCourses,
   getSingleCourse,
   updateCourse,
-  deleteCourse
+  deleteCourse,
+  addSeason,
+  addEpisode,
+  getSingleCourseContents,
+  getSingleEpisode
 }
