@@ -206,7 +206,10 @@ const getSingleCourse = async (req, res) => {
     throw new CustomError.NotFoundError('can not find any course with provided information')
   }
 
-  res.status(StatusCodes.OK).json({ course })
+  const studentsCount = await courseStudentsCounter(course._id)
+  const totalDuration = await courseTotalDurationCounter(course._id)
+
+  res.status(StatusCodes.OK).json({ course, studentsCount, totalDuration })
 }
 
 const getSingleCourseContents = async (req, res) => {
@@ -257,7 +260,7 @@ const getSingleEpisode = async (req, res) => {
     course: episode.course._id
   })
 
-  if(!isUserSubscribed && req.user.role === 'USER') {
+  if (!isUserSubscribed && req.user.role === 'USER') {
     throw new CustomError.UnauthorizedError('you are not subscribe to this course yet!')
   }
 
@@ -341,7 +344,31 @@ const uploadCourseCover = async (file, req) => {
   return `${req.protocol}://${req.get('host')}/assets/courses/${fileName}`
 }
 
-// TODO => get total duration and course total students
+const courseStudentsCounter = async (courseId) => {
+
+  try {
+    const studentsCount = await UserCourse.countDocuments({ course: courseId })
+    return studentsCount
+  } catch (error) {
+    console.log(error)
+    return 0
+  }
+
+}
+
+const courseTotalDurationCounter = async (courseId) => {
+  let totalDuration = 0
+
+  const allEpisodes = await Episode.find({ course: courseId })
+
+  if (allEpisodes.length) {
+    allEpisodes.map(episode => {
+      totalDuration += episode.duration
+    })
+  }
+
+  return totalDuration
+}
 
 module.exports = {
   createNewCourse,
