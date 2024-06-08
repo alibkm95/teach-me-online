@@ -27,8 +27,6 @@ const CourseSchema = new mongoose.Schema({
   },
   score: {
     type: Number,
-    max: 5,
-    min: 1,
     default: 5
   },
   instructor: {

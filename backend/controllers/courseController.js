@@ -116,7 +116,7 @@ const subscribeUserToCourse = async (req, res) => {
     throw new CustomError.NotFoundError('there is no course with provided informations!')
   }
 
-  const isAlreadySubscribed = await UserCourse.findOne({ course: course._id })
+  const isAlreadySubscribed = await UserCourse.findOne({ course: course._id, user: req.user.userId })
 
   if (isAlreadySubscribed) {
     throw new CustomError.BadRequestError('you already subscribed to this course')
