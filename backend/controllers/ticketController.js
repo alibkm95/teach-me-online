@@ -85,6 +85,9 @@ const getSingleTicket = async (req, res) => {
 const addNewMessage = async (req, res) => {
   const { id: ticketId } = req.params
   const { newMessage } = req.body
+  const file = req.files ? req.files.attachment : null
+
+  let uploadedFilePath = ''
 
   let ticket = await Ticket.findOne({ _id: ticketId })
     .populate({
@@ -104,10 +107,15 @@ const addNewMessage = async (req, res) => {
     throw new CustomError.UnauthorizedError('you cant access to the tickets other than yours!')
   }
 
+  if (file) {
+    uploadedFilePath = await ticketFileUploader(file, req)
+  }
+
   const newMessageInserting = await TicketConversation.create({
     sender: req.user.userId,
     ticket: ticketId,
-    message: newMessage
+    message: newMessage,
+    attachment: uploadedFilePath
   })
 
   if (!newMessageInserting) {
@@ -153,7 +161,7 @@ const closeTicket = async (req, res) => {
   ticket.ticketStatus = 'closed'
   await ticket.save()
 
-  res.status(StatusCodes.OK).json({ msg: 'ticketClosed successfully' })
+  res.status(StatusCodes.OK).json({ msg: 'ticket closed successfully' })
 }
 
 const deleteTicket = async (req, res) => {
@@ -181,8 +189,8 @@ const ticketFileUploader = async (file, req) => {
 
   const attachment = file
 
-  if (!attachment.mimetype.startsWith('application/x-rar') && !attachment.mimetype.startsWith('application/zip')) {
-    throw new CustomError.BadRequestError('only *.ZIP or *.RAR files allowed!');
+  if (!attachment.mimetype.startsWith('application/zip')) {
+    throw new CustomError.BadRequestError('only *.ZIP files allowed!');
   }
 
   const maxSize = 1024 * 1024 * 10;
