@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const TicketSchema = new mongoose.Schema({
-  createor: {
+  creator: {
     type: mongoose.Types.ObjectId,
     ref: 'User',
     required: true
