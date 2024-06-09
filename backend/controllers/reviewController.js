@@ -56,17 +56,23 @@ const addReview = async (req, res) => {
 const getCourseReviews = async (req, res) => {
   const { id: courseId } = req.params
 
-  const reviews = await Review.find({ course: courseId, isPublish: true })
+  let result = Review.find({ course: courseId, isPublish: true })
     .populate({
       path: 'user',
       select: 'name role profile'
-    })
+    }).sort('-createdAt')
 
-  if (!reviews) {
-    throw new CustomError.NotFoundError('we are sorry. no reviews found!')
-  }
+  const page = Number(req.query.page) || 1
+  const limit = 20
+  const skip = (page - 1) * limit
 
-  res.status(StatusCodes.OK).json({ reviews })
+  result = result.skip(skip).limit(limit)
+
+  const reviews = await result
+  const totalReviews = await Review.countDocuments({ course: courseId, isPublish: true })
+  const numOfPages = Math.ceil(totalReviews / limit)
+
+  res.status(StatusCodes.OK).json({ reviews, totalReviews, numOfPages })
 }
 
 const updateReview = async (req, res) => {
