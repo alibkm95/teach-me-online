@@ -16,7 +16,7 @@ const SeasonSchema = new mongoose.Schema({
   toObject: { virtuals: true }
 })
 
-SeasonSchema.virtual('Episodes', {
+SeasonSchema.virtual('episodes', {
   ref: 'Episode',
   localField: '_id',
   foreignField: 'season',

@@ -232,7 +232,7 @@ const getSingleCourseContents = async (req, res) => {
 
   const content = await Season.find({ course: course._id })
     .populate({
-      path: 'Episodes'
+      path: 'episodes'
     })
 
   res.status(StatusCodes.OK).json({ content })

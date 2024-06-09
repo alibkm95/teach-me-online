@@ -17,6 +17,7 @@ const instructorRouter = require('./routes/instructorsRoutes')
 const courseRouter = require('./routes/coursesRoutes')
 const reviewRouter = require('./routes/reviewRoutes')
 const ticketRouter = require('./routes/ticketRoutes')
+const questionRouter = require('./routes/questionsRoutes')
 
 const notFoundMiddleware = require('./middlewares/notFound')
 const errorHandlerMiddleware = require('./middlewares/errorHandler')
@@ -33,6 +34,7 @@ app.use('/api/instructor', instructorRouter)
 app.use('/api/courses', courseRouter)
 app.use('/api/review', reviewRouter)
 app.use('/api/ticket', ticketRouter)
+app.use('/api/question', questionRouter)
 
 // ! => err midelwares
 app.use(notFoundMiddleware)
