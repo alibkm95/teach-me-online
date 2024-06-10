@@ -21,6 +21,6 @@ router
 router
   .route('/:id')
   .get(authenticateUser, getSingleQuestion)
-  .post(authenticateUser, addAnswer)
+  .post(authenticateUser, authorizePermissions('ROOTADMIN', 'INSTRUCTOR'), addAnswer)
 
 module.exports = router

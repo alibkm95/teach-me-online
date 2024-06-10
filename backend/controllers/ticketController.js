@@ -203,10 +203,10 @@ const ticketFileUploader = async (file, req) => {
 
   const fileName = `${new Date().getTime()}_${attachment.name}`;
 
-  const imagePath = path.join(__dirname, `../public/uploads/attachments/${fileName}`);
+  const attachmentPath = path.join(__dirname, `../public/uploads/attachments/${fileName}`);
 
   try {
-    await attachment.mv(imagePath);
+    await attachment.mv(attachmentPath);
   } catch (error) {
     throw new CustomError.BadRequestError('upload file error')
   }
