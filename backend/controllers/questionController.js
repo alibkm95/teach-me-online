@@ -40,30 +40,30 @@ const makeQuestion = async (req, res) => {
   })
 
   if (!existingQuestion) {
-    const question = await Question.create({
+    const newQuestion = await Question.create({
       student: req.user.userId,
       episode: episode._id,
       courseTitle: episode.course.title,
       seasonTitle: episode.season.title
     })
 
-    if (!question) {
+    if (!newQuestion) {
       throw new CustomError.BadRequestError('creating new question failed!')
     }
 
     const msg = await QuestionConversation.create({
       sender: req.user.userId,
-      question: question._id,
+      question: newQuestion._id,
       message,
       attachment: uploadedFilePath
     })
 
     if (!msg) {
-      await question.deleteOne()
+      await newQuestion.deleteOne()
       throw new CustomError.BadRequestError('creating new question failed!')
     }
 
-    const createdQuestion = await Question.findOne({ _id: question._id })
+    const createdQuestion = await Question.findOne({ _id: newQuestion._id })
       .populate({
         path: 'conversation',
         populate: {
@@ -73,7 +73,7 @@ const makeQuestion = async (req, res) => {
         }
       })
 
-    return res.status(StatusCodes.CREATED).json({ createdQuestion })
+    return res.status(StatusCodes.CREATED).json({ question: createdQuestion })
   }
 
   const newMsg = await QuestionConversation.create({
@@ -100,7 +100,7 @@ const makeQuestion = async (req, res) => {
       }
     })
 
-  res.status(StatusCodes.CREATED).json({ updatedQuestion })
+  res.status(StatusCodes.CREATED).json({ question: updatedQuestion })
 }
 
 const addAnswer = async (req, res) => {
@@ -111,7 +111,7 @@ const addAnswer = async (req, res) => {
   let uploadedFilePath = ''
 
   if (!answer) {
-    throw new CustomError.BadRequestError('answer ti this question is required!')
+    throw new CustomError.BadRequestError('answer to this question is required!')
   }
 
   const question = await Question.findOne({ _id: questionId })

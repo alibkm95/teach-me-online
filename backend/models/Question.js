@@ -20,7 +20,7 @@ const QuestionSchema = new mongoose.Schema({
     default: ''
   },
   questionStatus: {
-    tyep: String,
+    type: String,
     enum: {
       values: ['pending', 'answered'],
       message: '{VALUE} is not supported as a valid status'
