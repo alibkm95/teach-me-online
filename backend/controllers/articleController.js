@@ -16,12 +16,12 @@ const createArticle = async (req, res) => {
     throw new CustomError.BadRequestError('article content must be provided!')
   }
 
-  const regex = /<##>(.*?)<\/##>\n<###>(.*?)<\/###>/g
-  const matches = Array.from(textContent.matchAll(regex))
+  const regex = /<##>(.*?)<\/##><###>(.*?)<\/###>/g
+  const matches = Array.from(content.matchAll(regex))
 
   const paragraphs = matches.map((match) => ({
     title: match[1],
-    paragraph: match[2].replace(/\n/g, '')
+    text: match[2]
   }))
 
   if (!file) {
@@ -46,7 +46,7 @@ const createArticle = async (req, res) => {
 }
 
 const getArticles = async (req, res) => {
-  const { search, sort } = req.body
+  const { search, sort } = req.query
 
   let queryObj = {
     isPublished: true

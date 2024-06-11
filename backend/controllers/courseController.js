@@ -136,7 +136,7 @@ const getAllCourses = async (req, res) => {
     lang,
     sort,
     search
-  } = req.body
+  } = req.query
 
   let queryObj = {
     isPublish: true
