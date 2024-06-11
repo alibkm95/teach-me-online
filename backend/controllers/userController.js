@@ -1,5 +1,6 @@
 const User = require('../models/User')
 const Token = require('../models/Token')
+const UserCourse = require('../models/UserCourse')
 const { StatusCodes } = require('http-status-codes')
 const crypto = require('crypto')
 const CustomError = require('../errors')
@@ -38,7 +39,7 @@ const updateUserInfos = async (req, res) => {
   user.email = email
   user.name = name
 
-  if(profileImage) {
+  if (profileImage) {
     const uploadedImagePath = await uploadUserProfile(profileImage, req)
     user.profile = uploadedImagePath
   }
@@ -59,6 +60,21 @@ const updateUserInfos = async (req, res) => {
   attachCookiesToResponse({ res, user: tokenUser, refreshToken })
 
   res.status(StatusCodes.OK).json({ user: tokenUser })
+}
+
+const getUserCourses = async (req, res) => {
+
+  const userCourses = await UserCourse.find({ user: req.user.userId })
+    .populate({
+      path: 'course',
+      select: 'title cover'
+    })
+
+  if (!userCourses) {
+    throw new CustomError.NotFoundError('there is no course!')
+  }
+
+  res.status(StatusCodes.OK).json({ userCourses })
 }
 
 const uploadUserProfile = async (file, req) => {
@@ -100,5 +116,6 @@ const uploadUserProfile = async (file, req) => {
 
 module.exports = {
   showCurrentUser,
-  updateUserInfos
+  updateUserInfos,
+  getUserCourses
 }
