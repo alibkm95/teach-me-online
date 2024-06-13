@@ -63,16 +63,3 @@ const CourseSchema = new mongoose.Schema({
 })
 
 module.exports = mongoose.model('Course', CourseSchema)
-
-// const UserCouseSchema = mongoose.Schema({
-//   user: {
-//     type: mongoose.Types.ObjectId,
-//     ref: 'User',
-//     required: true
-//   },
-//   courses:{
-//     type: [mongoose.Types.ObjectId],
-//     ref: 'Course',
-//     required: true
-//   }
-// }, {timestamps: true})

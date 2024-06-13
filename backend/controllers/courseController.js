@@ -178,14 +178,14 @@ const getAllCourses = async (req, res) => {
   }
 
   const page = Number(req.query.page) || 1
-  const limit = 12
-  const skip = (page - 1) * limit
+  const limitValue = 12
+  const skipValue = (page - 1) * limitValue
 
-  result = result.skip(skip).limit(limit)
+  result = result.skip(skipValue).limit(limitValue)
 
   const courses = await result
   const totalCourses = await Course.countDocuments(queryObj)
-  const numOfPages = Math.ceil(totalCourses / limit)
+  const numOfPages = Math.ceil(totalCourses / limitValue)
 
   res.status(StatusCodes.OK).json({ courses, totalCourses, numOfPages })
 }
