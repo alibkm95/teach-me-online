@@ -14,7 +14,6 @@ const SignupForm = ({ onStep, userSet }) => {
   const [userEmail, setUserEmail] = useState('')
   const [userPassword, setUserPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
-  const [isSuccess, setIsSuccess] = useState(false)
 
   const { loading, signup } = useSignup()
 
