@@ -13,6 +13,7 @@ import registerImg from '../assets/register.svg'
 const Signup = () => {
 
   const [activeStep, setActiveStep] = useState(1)
+  const [userEmail, setUserEmail] = useState(false)
 
   const steps = [
     { id: 1, stepName: 'Agreement', stepNumber: 1 },
@@ -20,6 +21,10 @@ const Signup = () => {
     { id: 3, stepName: 'Verification', stepNumber: 3 },
     { id: 4, stepName: 'Done!', stepNumber: 4 },
   ]
+
+  const stepChangeHandler = (stepValue) => {
+    setActiveStep(stepValue)
+  }
 
   return (
     <section className='w-full max-w-6xl mx-auto my-6 p-2'>
@@ -36,10 +41,10 @@ const Signup = () => {
             <Steps activeStep={activeStep} steps={steps} />
             <div className='flex-1 overflow-x-hidden'>
               <div className="flex flex-row transition-all duration-300'" style={{ transform: `translateX(-${(activeStep - 1) * 100}%)` }}>
-                <Agreement />
-                <SignupForm />
-                <Verification />
-                <SignupSuccess />
+                <Agreement onStep={stepChangeHandler} />
+                <SignupForm onStep={stepChangeHandler} userSet={setUserEmail} />
+                <Verification onStep={stepChangeHandler} appliedUser={userEmail} />
+                <SignupSuccess onStep={stepChangeHandler} />
               </div>
             </div>
           </div>

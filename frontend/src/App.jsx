@@ -30,21 +30,24 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/categories' element={<Categories />} />
-        <Route path='/login' element={authUser ? <UserPanel /> : <Login />} />
-        <Route path='/signup' element={authUser ? <UserPanel /> : <Signup />} />
-        <Route path='/recover' element={authUser ? <UserPanel /> : <Recover />} />
+        <Route path='/login' element={authUser ? <Navigate to={`/panel/${authUser.userId}`} /> : <Login />} />
+        <Route path='/signup' element={authUser ? <Navigate to={`/panel/${authUser.userId}`} /> : <Signup />} />
+        <Route path='/recover' element={authUser ? <Navigate to={`/panel/${authUser.userId}`} /> : <Recover />} />
         <Route path='/courseDetailes/:id' element={<CourseDetailes />} />
-        <Route path='/courseContents/:id' element={authUser ? <CourseContents /> : <Home />} />
+        <Route path='/courseContents/:id' element={authUser ? <CourseContents /> : <Navigate to='/' />} />
         <Route path='/ticket' element={<Ticket />} />
-        <Route path='/ticketDetailes/:id' element={authUser ? <TicketDetailes /> : <UserPanel />} />
-        <Route path='/panel/:id' element={authUser ? <UserPanel /> : <Login />} />
-        <Route path='/payment/:id' element={authUser ? <Payment /> : <Login />} />
+        <Route path='/ticketDetailes/:id' element={authUser ? <TicketDetailes /> : <Navigate to='/' />} />
+        <Route path='/panel/:id' element={authUser ? <UserPanel /> : <Navigate to='/login' />} />
+        <Route path='/payment/:id' element={authUser ? <Payment /> : <Navigate to='/login' />} />
         <Route path='/articles' element={<Articles />} />
         <Route path='/article/:id' element={<Article />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
       <Footer />
-      <Toaster />
+      <Toaster
+        toastOptions={{ className: 'bg-base-100 text-base-content border border-base-content' }}
+        position='top-left'
+      />
     </>
   )
 }
