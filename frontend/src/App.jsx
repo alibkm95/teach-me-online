@@ -1,4 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
+import { Toaster } from 'react-hot-toast'
+import { useAuthContext } from './context/AuthContext'
 
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
@@ -20,26 +22,29 @@ import './App.css'
 
 function App() {
 
+  const { authUser } = useAuthContext()
+
   return (
     <>
       <Navbar />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/categories' element={<Categories />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/signup' element={<Signup />} />
-        <Route path='/recover' element={<Recover />} />
+        <Route path='/login' element={authUser ? <UserPanel /> : <Login />} />
+        <Route path='/signup' element={authUser ? <UserPanel /> : <Signup />} />
+        <Route path='/recover' element={authUser ? <UserPanel /> : <Recover />} />
         <Route path='/courseDetailes/:id' element={<CourseDetailes />} />
-        <Route path='/courseContents/:id' element={<CourseContents />} />
+        <Route path='/courseContents/:id' element={authUser ? <CourseContents /> : <Home />} />
         <Route path='/ticket' element={<Ticket />} />
-        <Route path='/ticketDetailes/:id' element={<TicketDetailes />} />
-        <Route path='/panel/:id' element={<UserPanel />} />
-        <Route path='/payment/:id' element={<Payment />} />
+        <Route path='/ticketDetailes/:id' element={authUser ? <TicketDetailes /> : <UserPanel />} />
+        <Route path='/panel/:id' element={authUser ? <UserPanel /> : <Login />} />
+        <Route path='/payment/:id' element={authUser ? <Payment /> : <Login />} />
         <Route path='/articles' element={<Articles />} />
         <Route path='/article/:id' element={<Article />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
       <Footer />
+      <Toaster />
     </>
   )
 }
