@@ -2,14 +2,12 @@ import React, { useState } from 'react'
 
 import { GoNumber } from "react-icons/go";
 import useVerify from '../hooks/useVerify';
-import { useAuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 const Verification = ({ onStep, appliedUser }) => {
 
   const [verificationCode, setVerificationCode] = useState('')
   const { loading, verify } = useVerify()
-  const { authUser } = useAuthContext()
   const navigate = useNavigate()
 
   const submitHandler = async (e) => {
@@ -19,7 +17,7 @@ const Verification = ({ onStep, appliedUser }) => {
     if (success) {
       onStep(4)
       setTimeout(() => {
-        navigate(`/panel/${authUser.userId}`)
+        navigate(`/`)
       }, 5000);
     }
   }
