@@ -30,14 +30,14 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/categories' element={<Categories />} />
-        <Route path='/login' element={authUser ? <Navigate to={`/panel/${authUser.userId}`} /> : <Login />} />
-        <Route path='/signup' element={authUser ? <Navigate to={`/panel/${authUser.userId}`} /> : <Signup />} />
-        <Route path='/recover' element={authUser ? <Navigate to={`/panel/${authUser.userId}`} /> : <Recover />} />
+        <Route path='/login' element={authUser ? <Navigate to={`/panel`} /> : <Login />} />
+        <Route path='/signup' element={authUser ? <Navigate to={`/panel`} /> : <Signup />} />
+        <Route path='/recover' element={authUser ? <Navigate to={`/panel`} /> : <Recover />} />
         <Route path='/courseDetailes/:id' element={<CourseDetailes />} />
         <Route path='/courseContents/:id' element={authUser ? <CourseContents /> : <Navigate to='/' />} />
         <Route path='/ticket' element={<Ticket />} />
         <Route path='/ticketDetailes/:id' element={authUser ? <TicketDetailes /> : <Navigate to='/' />} />
-        <Route path='/panel/:id' element={authUser ? <UserPanel /> : <Navigate to='/login' />} />
+        <Route path='/panel' element={authUser ? <UserPanel /> : <Navigate to='/login' />} />
         <Route path='/payment/:id' element={authUser ? <Payment /> : <Navigate to='/login' />} />
         <Route path='/articles' element={<Articles />} />
         <Route path='/article/:id' element={<Article />} />

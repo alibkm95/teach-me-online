@@ -17,7 +17,7 @@ const Verification = ({ onStep, appliedUser }) => {
     if (success) {
       onStep(4)
       setTimeout(() => {
-        navigate(`/`)
+        navigate('/panel')
       }, 5000);
     }
   }

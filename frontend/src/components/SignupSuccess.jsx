@@ -8,10 +8,10 @@ const SignupSuccess = () => {
         🎉 Registeration success 🎉
       </span>
       <p className="">
-        Registration completed successfully! Automatic redirection will lead you to HOME page. if it not worked please use the button below.
+        Registration completed successfully! Automatic redirection will lead you to your panel. if it not worked please use the button below.
       </p>
-      <Link to='/' className='btn btn-primary text-white m-4'>
-        Go to home page
+      <Link to='/panel' className='btn btn-primary text-white m-4'>
+        Go to my panel
       </Link>
     </div>
   )

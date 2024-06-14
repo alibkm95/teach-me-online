@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     getMe()
-  }, [isLogin])
+  }, [isLogin, authUser])
 
   return (
     <AuthContext.Provider value={{ authUser, setAuthUser, setIsLogin }}>

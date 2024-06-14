@@ -21,7 +21,7 @@ const Actions = () => {
         </button>
       </div>
       <div>
-        <Link to='/panel/id' className="btn btn-sm px-2 btn-ghost md:btn-md hover:bg-base-100">
+        <Link to='/panel' className="btn btn-sm px-2 btn-ghost md:btn-md hover:bg-base-100">
           <FaUserCircle className='text-2xl lg:text-3xl' />
         </Link>
       </div>
