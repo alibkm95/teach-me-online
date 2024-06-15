@@ -2,15 +2,18 @@ import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 
 import { MenuContext } from '../context/MenuAndCartConext';
+import { useAuthContext } from '../context/AuthContext';
+
+import fallBackUserProfile from '../assets/fallBackUserProfile.png'
 
 import { FaBagShopping } from "react-icons/fa6";
 import { CiMenuFries } from "react-icons/ci";
-import { FaUserCircle } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 
 const Actions = () => {
 
   const { isMenuOpen, toggleMenu, isCartOpen, toggleCart } = useContext(MenuContext)
+  const { authUser } = useAuthContext()
 
   return (
     <div className='flex'>
@@ -22,7 +25,11 @@ const Actions = () => {
       </div>
       <div>
         <Link to='/panel' className="btn btn-sm px-2 btn-ghost md:btn-md hover:bg-base-100">
-          <FaUserCircle className='text-2xl lg:text-3xl' />
+          <img
+            className='w-8 h-8 rounded-full lg:w-10 lg:h-10'
+            src={authUser && authUser.profile.length ? authUser.profile : fallBackUserProfile}
+            alt=""
+          />
         </Link>
       </div>
       <div className='lg:hidden'>

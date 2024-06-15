@@ -5,6 +5,7 @@ import Menu from './Menu'
 import Logo from './Logo'
 import ShoppingCart from './ShoppingCart'
 
+
 const Navbar = () => {
   return (
     <header className='bg-base-300 p-4 md:m-2 md:rounded-box'>

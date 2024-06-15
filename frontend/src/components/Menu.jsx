@@ -20,7 +20,8 @@ const Menu = () => {
     event.preventDefault()
 
     if (!searchQuery.trim().length) return
-    navigate(`/categories?q=${searchQuery}`)
+    navigate(`/categories?q=${searchQuery.trim()}`)
+    toggleMenu()
   }
 
   return (
@@ -36,7 +37,7 @@ const Menu = () => {
               id='search-input'
               type="text"
               value={searchQuery}
-              onChange={e => { setSearchQuery(e.target.value.trim()) }}
+              onChange={e => { setSearchQuery(e.target.value) }}
               placeholder="search..."
               className="input input-sm input-bordered w-full max-w-xs xl:input-md"
             />
@@ -47,25 +48,25 @@ const Menu = () => {
         </div>
         <ul className="menu text-lg lg:flex-1 lg:flex-row lg:text-sm xl:text-lg">
           <li className="menu__items">
-            <Link to='/'>
+            <Link to='/' onClick={toggleMenu}>
               <FaHome />
               Home
             </Link>
           </li>
           <li className="menu__items">
-            <Link to='/categories'>
+            <Link to='/categories' onClick={toggleMenu}>
               <BiSolidCategoryAlt />
               Categories
             </Link>
           </li>
           <li className="menu__items">
-            <Link to='/ticket'>
+            <Link to='/ticket' onClick={toggleMenu}>
               <PiHeadsetFill />
               Support
             </Link>
           </li>
           <li className="menu__items">
-            <Link to='/articles'>
+            <Link to='/articles' onClick={toggleMenu}>
               <RiArticleFill />
               Articles
             </Link>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
@@ -7,7 +7,8 @@ import ProductCart from './ProductCart';
 import 'swiper/css'
 import 'swiper/css/pagination';
 
-const CreateSwiper = () => {
+const CreateSwiper = ({ courses }) => {
+
   return (
     <Swiper
       slidesPerView={1}
@@ -39,36 +40,14 @@ const CreateSwiper = () => {
       modules={[Autoplay, Pagination, Navigation]}
       className="mySwiper"
     >
-      <SwiperSlide>
-        <ProductCart />
-      </SwiperSlide>
-      <SwiperSlide>
-        <ProductCart />
-      </SwiperSlide>
-      <SwiperSlide>
-        <ProductCart />
-      </SwiperSlide>
-      <SwiperSlide>
-        <ProductCart />
-      </SwiperSlide>
-      <SwiperSlide>
-        <ProductCart />
-      </SwiperSlide>
-      <SwiperSlide>
-        <ProductCart />
-      </SwiperSlide>
-      <SwiperSlide>
-        <ProductCart />
-      </SwiperSlide>
-      <SwiperSlide>
-        <ProductCart />
-      </SwiperSlide>
-      <SwiperSlide>
-        <ProductCart />
-      </SwiperSlide>
-      <SwiperSlide>
-        <ProductCart />
-      </SwiperSlide>
+      {
+        courses?.length > 0 &&
+        (courses.map(course => (
+          <SwiperSlide key={course._id}>
+            <ProductCart course={course} />
+          </SwiperSlide>
+        )))
+      }
     </Swiper>
   )
 }
