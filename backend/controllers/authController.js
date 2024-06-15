@@ -175,7 +175,7 @@ const forgetPassword = async (req, res) => {
   const { email } = req.body
 
   if (!email) {
-    throw new CustomError.BadRequestError('email is required to send reset link')
+    throw new CustomError.BadRequestError('email is required to send reset code')
   }
 
   const user = await User.findOne({ email })
@@ -229,7 +229,7 @@ const resetPassword = async (req, res) => {
 
   user.password = password
   user.resetPasswordCode = ''
-  
+
   await user.save()
 
   res.status(StatusCodes.OK).json({ msg: 'reseting password successfull' })

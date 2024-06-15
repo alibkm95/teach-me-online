@@ -1,9 +1,6 @@
 import React, { useState } from 'react'
 
-import Steps from '../components/Steps';
 import RecoverForm from '../components/RecoverForm';
-import FindAccForm from '../components/FindAccForm';
-import Verification from '../components/Verification';
 
 import { TfiReload } from "react-icons/tfi";
 
@@ -26,7 +23,6 @@ const Recover = () => {
           </div>
           <div className='flex-1 overflow-x-hidden'>
             <div className="flex flex-col">
-              <FindAccForm />
               <RecoverForm />
             </div>
           </div>
