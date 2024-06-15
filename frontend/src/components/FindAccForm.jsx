@@ -4,9 +4,9 @@ import { MdEmail } from "react-icons/md";
 
 const FindAccForm = () => {
   return (
-    <div className='min-w-full px-4 pt-8'>
+    <div className='min-w-full px-4'>
       <span className="text-2xl font-bold block mb-2">
-        Please insert your E-Mail:
+        Find your account:
       </span>
       <form className="pt-2 max-w-96" id="find-acc-form">
         <label className="form-control w-full">
@@ -20,7 +20,7 @@ const FindAccForm = () => {
         </label>
         <div className="my-4">
           <button type="submit" className="btn btn-primary text-white block ms-auto">
-            Submit
+            Find my account
           </button>
         </div>
       </form>

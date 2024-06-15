@@ -24,7 +24,7 @@ const useLogin = () => {
     if (res.status === 200) {
       setAuthUser(data.user)
       setLoading(false)
-      localStorage.setItem('user', true)
+      localStorage.setItem('user', JSON.stringify(true))
       setIsLogin(true)
       toast.success('login success!')
       return { success: true }
