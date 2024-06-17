@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
@@ -41,12 +41,11 @@ const CreateSwiper = ({ courses }) => {
       className="mySwiper"
     >
       {
-        courses?.length > 0 &&
-        (courses.map(course => (
+        courses.map(course => (
           <SwiperSlide key={course._id}>
             <ProductCart course={course} />
           </SwiperSlide>
-        )))
+        ))
       }
     </Swiper>
   )

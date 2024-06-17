@@ -17,7 +17,6 @@ const Home = () => {
       <FrontendCourses />
       <BackendCourses />
       {/* <LatestArticles /> */}
-      {/* todo => latest articles in the end mut be implemented */}
       <FAQ />
     </div>
   )
