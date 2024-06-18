@@ -19,7 +19,7 @@ const Menu = () => {
   const submitHandler = (event) => {
     event.preventDefault()
 
-    if (!searchQuery.trim().length) return
+    // if (!searchQuery.trim().length) return
     navigate(`/categories?q=${searchQuery.trim()}`)
     toggleMenu()
   }

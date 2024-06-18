@@ -3,7 +3,7 @@ import toast from 'react-hot-toast'
 
 const useGetAllCourses = () => {
   const [loading, setLoading] = useState(false)
-  const [coursesData, setCoursesData] = useState(null)
+  const [courses, setCourses] = useState([])
 
   const getAllCourses = (optionObj) => {
     setLoading(true)
@@ -18,15 +18,15 @@ const useGetAllCourses = () => {
 
     fetch(`/api/courses?${params.toString()}`)
       .then(res => res.json())
-      .then(data => setCoursesData(data))
+      .then(data => setCourses(data.courses))
       .catch(err => {
-        setCoursesData(null)
+        setCourses([])
         toast.error(err.msg)
       })
       .finally(() => setLoading(false))
   }
 
-  return { loading, getAllCourses, coursesData }
+  return { loading, getAllCourses, courses }
 }
 
 export default useGetAllCourses

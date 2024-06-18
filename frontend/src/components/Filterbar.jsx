@@ -5,15 +5,16 @@ import { BiSolidCategoryAlt } from "react-icons/bi";
 import { FaCode } from "react-icons/fa";
 import { FaSortAmountUp } from "react-icons/fa";
 
-const Filterbar = ({ onFilter }) => {
-
-  const [category, setCategory] = useState('all')
-  const [lang, setLang] = useState('all')
-  const [sort, setSort] = useState('newest')
+const Filterbar = ({ filter, setFilter }) => {
+  const [category, setCategory] = useState(filter.category)
+  const [lang, setLang] = useState(filter.lang)
+  const [sort, setSort] = useState(filter.sort)
 
   const filterSubmitHandler = (e) => {
     e.preventDefault()
-    
+    setFilter(prev => {
+      return { ...prev, category, lang, sort }
+    })
   }
 
   return (

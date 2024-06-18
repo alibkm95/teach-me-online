@@ -177,17 +177,9 @@ const getAllCourses = async (req, res) => {
     result = result.sort('-createdAt')
   }
 
-  const page = Number(req.query.page) || 1
-  const limitValue = 12
-  const skipValue = (page - 1) * limitValue
-
-  result = result.skip(skipValue).limit(limitValue)
-
   const courses = await result
-  const totalCourses = await Course.countDocuments(queryObj)
-  const numOfPages = Math.ceil(totalCourses / limitValue)
 
-  res.status(StatusCodes.OK).json({ courses, totalCourses, numOfPages })
+  res.status(StatusCodes.OK).json({ courses })
 }
 
 const getSingleCourse = async (req, res) => {
