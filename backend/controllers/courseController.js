@@ -198,10 +198,13 @@ const getSingleCourse = async (req, res) => {
     throw new CustomError.NotFoundError('can not find any course with provided information')
   }
 
+
   const studentsCount = await courseStudentsCounter(course._id)
   const totalDuration = await courseTotalDurationCounter(course._id)
 
-  res.status(StatusCodes.OK).json({ course, studentsCount, totalDuration })
+  let requestedCourse = { ...course.toObject(), studentsCount, totalDuration }
+
+  res.status(StatusCodes.OK).json({ requestedCourse })
 }
 
 const getSingleCourseContents = async (req, res) => {

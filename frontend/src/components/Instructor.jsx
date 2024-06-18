@@ -1,8 +1,9 @@
 import React from 'react'
 
 import { FaChalkboardTeacher } from "react-icons/fa";
+import fallBackUserProfile from '../assets/fallBackUserProfile.png'
 
-const Instructor = () => {
+const Instructor = ({ teacher }) => {
   return (
     <div className='p-4 bg-base-200 rounded-box'>
       <div className="mb-2 border-b border-b-gray-700 pb-2 text-xl flex items-center gap-2">
@@ -12,7 +13,7 @@ const Instructor = () => {
       <div className="flex items-center gap-2 pt-2">
         <div className="avatar">
           <div className="w-20 mask mask-squircle">
-            <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+            <img src={teacher.user.profile.length ? teacher.user.profile : fallBackUserProfile} />
           </div>
         </div>
         <div className="flex flex-col gap-2">
