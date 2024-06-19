@@ -2,9 +2,7 @@ import React, { useState } from 'react'
 
 import { FaStar } from "react-icons/fa6";
 
-const Score = () => {
-
-  const [score, setScore] = useState(5)
+const Score = ({ score, setScore }) => {
 
   return (
     <div className='my-2'>

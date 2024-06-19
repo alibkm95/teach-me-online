@@ -52,7 +52,7 @@ const CourseDetailes = () => {
                 </div>
                 <div className="p-4 bg-base-100 rounded-ee-lg rounded-es-lg border border-gray-700 border-t-0" id='lessons'>
                   {activeTab === 'content' && <CourseContentContainer courseId={course._id} />}
-                  {activeTab === 'comment' && <CommentsContainer />}
+                  {activeTab === 'comment' && <CommentsContainer courseId={course._id} />}
                 </div>
               </div>
             </div>

@@ -56,23 +56,13 @@ const addReview = async (req, res) => {
 const getCourseReviews = async (req, res) => {
   const { id: courseId } = req.params
 
-  let result = Review.find({ course: courseId, isPublish: true })
+  const reviews = await Review.find({ course: courseId, isPublish: true })
     .populate({
       path: 'user',
       select: 'name role profile'
-    }).sort('-createdAt')
+    })
 
-  const page = Number(req.query.page) || 1
-  const limit = 20
-  const skip = (page - 1) * limit
-
-  result = result.skip(skip).limit(limit)
-
-  const reviews = await result
-  const totalReviews = await Review.countDocuments({ course: courseId, isPublish: true })
-  const numOfPages = Math.ceil(totalReviews / limit)
-
-  res.status(StatusCodes.OK).json({ reviews, totalReviews, numOfPages })
+  res.status(StatusCodes.OK).json({ reviews })
 }
 
 const updateReview = async (req, res) => {
