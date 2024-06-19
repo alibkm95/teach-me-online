@@ -32,7 +32,7 @@ const CourseDetailes = () => {
           <div className="grid grid-cols-1 rounded-box gap-2 relative lg:grid-cols-3">
             <aside className="h-max row-start-2 lg:row-start-1 lg:sticky lg:top-0">
               <Instructor teacher={course.instructor} />
-              <SimilarItems />
+              <SimilarItems category={course.categories} />
             </aside>
             <div className="lg:col-span-2">
               <div className="bg-base-200 p-4 rounded-box">
@@ -52,7 +52,7 @@ const CourseDetailes = () => {
                 </div>
                 <div className="p-4 bg-base-100 rounded-ee-lg rounded-es-lg border border-gray-700 border-t-0" id='lessons'>
                   {/* <span className="loading loading-bars loading-lg block mx-auto"></span> */}
-                  {activeTab === 'content' && <CourseContentContainer />}
+                  {activeTab === 'content' && <CourseContentContainer courseId={course._id} />}
                   {activeTab === 'comment' && <CommentsContainer />}
                 </div>
               </div>

@@ -2,7 +2,7 @@ import React from 'react'
 
 import ContentAcordion from './ContentAcordion'
 
-const CourseContentContainer = () => {
+const CourseContentContainer = ({ courseId }) => {
   return (
     <div className='flex flex-col gap-2'>
       <ContentAcordion />
