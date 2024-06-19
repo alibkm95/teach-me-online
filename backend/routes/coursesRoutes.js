@@ -42,7 +42,7 @@ router
 
 router
   .route('/content/:id')
-  .get(authenticateUser, getSingleCourseContents)
+  .get(getSingleCourseContents)
 
 router
   .route('/:id')

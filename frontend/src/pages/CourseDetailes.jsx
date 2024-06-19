@@ -51,7 +51,6 @@ const CourseDetailes = () => {
                   </a>
                 </div>
                 <div className="p-4 bg-base-100 rounded-ee-lg rounded-es-lg border border-gray-700 border-t-0" id='lessons'>
-                  {/* <span className="loading loading-bars loading-lg block mx-auto"></span> */}
                   {activeTab === 'content' && <CourseContentContainer courseId={course._id} />}
                   {activeTab === 'comment' && <CommentsContainer />}
                 </div>

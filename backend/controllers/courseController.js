@@ -216,15 +216,6 @@ const getSingleCourseContents = async (req, res) => {
     throw new CustomError.NotFoundError('there is no course with provided informations!')
   }
 
-  const isUserSubscribed = await UserCourse.findOne({
-    user: req.user.userId,
-    course: course._id
-  })
-
-  if (!isUserSubscribed && req.user.role === 'USER') {
-    throw new CustomError.UnauthorizedError('you are not subscribe to this course yet!')
-  }
-
   const content = await Season.find({ course: course._id })
     .populate({
       path: 'episodes'
