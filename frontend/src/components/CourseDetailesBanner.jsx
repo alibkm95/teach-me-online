@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { useAuthContext } from '../context/AuthContext'
-import useGetUserCourses from '../hooks/useGetUserCourses';
+import useCourseAccess from '../hooks/useCourseAccess';
 
 import { FaBookOpen } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
@@ -11,26 +10,11 @@ import { FaCartPlus } from "react-icons/fa6";
 import fallBackCourseCover from '../assets/fallBackCourseCover.png'
 
 const CourseDetailesBanner = ({ course }) => {
-
-  const { authUser } = useAuthContext()
-  const { loading, getUserCourses, userCourses } = useGetUserCourses()
-  const [isSubscribed, setIsSubscribed] = useState(false)
+  const { hasAccessToCourse, courseAccess } = useCourseAccess()
 
   useEffect(() => {
-    if (authUser) {
-      getUserCourses()
-    }
+    hasAccessToCourse(course._id)
   }, [])
-
-  useEffect(() => {
-    const subscribedCourse = userCourses.find(userCourse => {
-      return userCourse._id === course._id
-    })
-
-    if (subscribedCourse) {
-      setIsSubscribed(true)
-    }
-  }, [userCourses])
 
   return (
     <div className='grid grid-cols-1 gap-6 lg:grid-cols-2'>
@@ -51,10 +35,7 @@ const CourseDetailesBanner = ({ course }) => {
         </span>
         <div className="mt-auto flex items-center justify-between gap-4 flex-wrap">
           {
-            loading && <span className="loading loading-bars loading-lg block mx-auto"></span>
-          }
-          {
-            isSubscribed &&
+            courseAccess &&
             <>
               <span className='text-white flex items-center gap-1'>
                 <FaUser size={25} className='text-emerald-600' />
@@ -67,7 +48,7 @@ const CourseDetailesBanner = ({ course }) => {
             </>
           }
           {
-            !isSubscribed &&
+            !courseAccess &&
             <>
               <span className='text-white flex items-center gap-1'>
                 <FaUser size={25} className='text-emerald-600' />

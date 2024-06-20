@@ -330,6 +330,18 @@ const uploadCourseCover = async (file, req) => {
   return `${req.protocol}://${req.get('host')}/assets/courses/${fileName}`
 }
 
+const userHasAccess = async (req, res) => {
+  const { id: courseId } = req.params
+
+  const userCourse = await UserCourse.findOne({ course: courseId, user: req.user.userId })
+
+  if (!userCourse) {
+    return res.status(StatusCodes.OK).json({ access: false })
+  }
+
+  res.status(StatusCodes.OK).json({ access: true })
+}
+
 const courseStudentsCounter = async (courseId) => {
 
   try {
@@ -366,5 +378,6 @@ module.exports = {
   addEpisode,
   getSingleCourseContents,
   getSingleEpisode,
-  subscribeUserToCourse
+  subscribeUserToCourse,
+  userHasAccess
 }

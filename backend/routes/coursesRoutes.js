@@ -11,7 +11,8 @@ const {
   addEpisode,
   getSingleCourseContents,
   getSingleEpisode,
-  subscribeUserToCourse
+  subscribeUserToCourse,
+  userHasAccess
 } = require('../controllers/courseController')
 
 const {
@@ -43,6 +44,10 @@ router
 router
   .route('/content/:id')
   .get(getSingleCourseContents)
+
+router
+  .route('/access/:id')
+  .get(authenticateUser, userHasAccess)
 
 router
   .route('/:id')

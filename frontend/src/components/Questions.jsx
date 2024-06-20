@@ -14,7 +14,7 @@ const Questions = () => {
       </p>
       <NewQuestion />
       <div className="divider"></div>
-      <Conversations />
+      {/* <Conversations /> */}
     </div>
   )
 }

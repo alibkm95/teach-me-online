@@ -1,37 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom';
-
-import { useAuthContext } from '../context/AuthContext';
-import useGetUserCourses from '../hooks/useGetUserCourses'
+import React from 'react'
+import { useNavigate } from 'react-router-dom';
 
 import { MdOutlineOndemandVideo } from "react-icons/md";
 import toast from 'react-hot-toast';
 
-const ContentAcordionItems = ({ episode }) => {
+const ContentAcordionItems = ({ episode, access }) => {
 
-  const { authUser } = useAuthContext()
-  const { getUserCourses, userCourses } = useGetUserCourses()
-  const [isSubscribed, setIsSubscribed] = useState(false)
   const navigate = useNavigate()
 
-  useEffect(() => {
-    if (authUser) {
-      getUserCourses()
-    }
-  }, [])
-
-  useEffect(() => {
-    const subscribedCourse = userCourses.find(userCourse => {
-      return userCourse._id === episode.course._id
-    })
-
-    if (subscribedCourse) {
-      setIsSubscribed(true)
-    }
-  }, [userCourses])
-
   const handleNavigate = (episodeId) => {
-    if (!isSubscribed) { return toast.error('You are not subscribed to this course!') }
+    if (!access) { return toast.error('You are not subscribed to this course!') }
     navigate(`/courseContents/${episodeId}`)
   }
 

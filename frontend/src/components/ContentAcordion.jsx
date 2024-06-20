@@ -2,7 +2,7 @@ import React from 'react'
 
 import ContentAcordionItems from './ContentAcordionItems'
 
-const ContentAcordion = ({ season }) => {
+const ContentAcordion = ({ season, access }) => {
   return (
     <div className="collapse collapse-plus bg-base-200">
       <input type="radio" name="accordian" />
@@ -13,7 +13,7 @@ const ContentAcordion = ({ season }) => {
         <div className="flex flex-col gap-2">
           {
             season.episodes.map(item => (
-              <ContentAcordionItems key={item._id} episode={item} />
+              <ContentAcordionItems key={item._id} episode={item} access={access} />
             ))
           }
         </div>

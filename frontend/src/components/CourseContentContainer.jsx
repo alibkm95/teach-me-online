@@ -4,13 +4,16 @@ import NotFound from '../pages/NotFound'
 
 import ContentAcordion from './ContentAcordion'
 import useGetCourseContent from '../hooks/useGetCourseContent'
+import useCourseAccess from '../hooks/useCourseAccess'
 
 const CourseContentContainer = ({ courseId }) => {
 
   const { loading, getContents, content } = useGetCourseContent()
+  const { hasAccessToCourse, courseAccess } = useCourseAccess()
 
   useEffect(() => {
     getContents(courseId)
+    hasAccessToCourse(courseId)
   }, [courseId])
 
   return (
@@ -20,7 +23,7 @@ const CourseContentContainer = ({ courseId }) => {
       }
       {
         content.length > 0 &&
-        content.map(item => (<ContentAcordion key={item._id} season={item} />))
+        content.map(item => (<ContentAcordion key={item._id} season={item} access={courseAccess} />))
       }
       {
         content.length === 0 &&
