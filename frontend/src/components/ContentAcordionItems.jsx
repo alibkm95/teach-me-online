@@ -21,8 +21,8 @@ const ContentAcordionItems = ({ episode }) => {
   }, [])
 
   useEffect(() => {
-    const subscribedCourse = userCourses.find(course => {
-      return course._id === course._id
+    const subscribedCourse = userCourses.find(userCourse => {
+      return userCourse._id === episode.course._id
     })
 
     if (subscribedCourse) {

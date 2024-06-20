@@ -66,14 +66,14 @@ const getCourseReviews = async (req, res) => {
 }
 
 const updateReview = async (req, res) => {
-  const { id: reviewId } = req.params
+  const { id: courseId } = req.params
   const { comment } = req.body
 
   if (!comment) {
     throw new CustomError.BadRequestError('necessary informations must be provided!')
   }
 
-  const review = await Review.findOne({ _id: reviewId })
+  const review = await Review.findOne({ user: req.user.userId, course: courseId })
 
   if (!review) {
     throw new CustomError.NotFoundError('there is no review with provided informations')
