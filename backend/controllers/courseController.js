@@ -250,7 +250,7 @@ const getSingleEpisode = async (req, res) => {
     throw new CustomError.UnauthorizedError('you are not subscribe to this course yet!')
   }
 
-  res.status(StatusCodes.OK).json(episode)
+  res.status(StatusCodes.OK).json({ episode })
 }
 
 const updateCourse = async (req, res) => {

@@ -5,6 +5,13 @@ import fallBackUserProfile from '../assets/fallBackUserProfile.png'
 import { FaStar } from "react-icons/fa6";
 
 const Review = ({ review }) => {
+
+  const roleOpt = {
+    USER: ['student', 'text-emerald-600'],
+    ROOTADMIN: ['admin', 'text-primary'],
+    INSTRUCTOR: ['instructor', 'text-orange-500']
+  }
+
   return (
     <div className='p-4 bg-base-200 rounded mb-2'>
       <p className='text-lg font-medium mb-4'>{review.comment}</p>
@@ -17,22 +24,14 @@ const Review = ({ review }) => {
         <div className="flex flex-col">
           <p className="font-medium">
             {review.user.name}
-            {
-              review.user.role === 'USER' && <span className='stat-title text-sm text-emerald-700'> - student</span>
-            }
-            {
-              review.user.role === 'ROOTADMIN' && <span className='stat-title text-sm text-primary'> - admin</span>
-            }
-            {
-              review.user.role === 'INSTRUCTOR' && <span className='stat-title text-sm text-orange-600'> - instructor</span>
-            }
+            <span className={`stat-title text-sm ${roleOpt[review.user.role][1]}`}>{" _ " + roleOpt[review.user.role][0]}</span>
           </p>
           <p className="flex items-center gap-1 text-xs">
             {
               review.user.role === 'USER' &&
               <>
                 {review.rating}
-                <FaStar className='text-amber-500' /> __ 
+                <FaStar className='text-amber-500' /> __
               </>
             }
             <span className='stat-desc'>{new Date(review.createdAt).toLocaleDateString()}</span>

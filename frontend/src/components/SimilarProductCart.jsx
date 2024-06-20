@@ -13,7 +13,10 @@ const SimilarProductCart = ({ course }) => {
         <h6 className="font-semibold text-white">
           {course.title}
         </h6>
-        <Link to={`/courseDetailes/${course._id}`} className='btn btn-xs btn-outline btn-primary w-max'>
+        <Link
+          to={`/courseDetailes/${course._id}`}
+          className='btn btn-xs btn-outline btn-primary w-max'
+        >
           Detailes
         </Link>
       </div>

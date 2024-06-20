@@ -11,12 +11,17 @@ const {
   addAnswer,
   getUserQuestions,
   getSingleQuestion,
+  getEpisodeQuestions
 } = require('../controllers/questionController')
 
 router
   .route('/')
   .post(authenticateUser, makeQuestion)
   .get(authenticateUser, getUserQuestions)
+
+router
+  .route('/episode/:id')
+  .get(authenticateUser, getEpisodeQuestions)
 
 router
   .route('/:id')

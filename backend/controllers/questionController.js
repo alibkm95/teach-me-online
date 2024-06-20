@@ -166,6 +166,26 @@ const getUserQuestions = async (req, res) => {
   res.status(StatusCodes.OK).json({ questions })
 }
 
+const getEpisodeQuestions = async (req, res) => {
+  const { id: episodeId } = req.params
+
+  const question = await Question.findOne({ student: req.user.userId, episode: episodeId })
+    .populate({
+      path: 'conversation',
+      populate: {
+        path: 'sender',
+        model: 'User',
+        select: 'name email profile role'
+      }
+    })
+
+  if (!question) {
+    throw new CustomError.NotFoundError('there is no such a question!')
+  }
+
+  res.status(StatusCodes.OK).json({ question })
+}
+
 const getSingleQuestion = async (req, res) => {
   const { id: questionId } = req.params
 
@@ -227,4 +247,5 @@ module.exports = {
   addAnswer,
   getUserQuestions,
   getSingleQuestion,
+  getEpisodeQuestions
 }

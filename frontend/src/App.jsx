@@ -34,7 +34,7 @@ function App() {
         <Route path='/signup' element={authUser ? <Navigate to={`/panel`} /> : <Signup />} />
         <Route path='/recover' element={authUser ? <Navigate to={`/panel`} /> : <Recover />} />
         <Route path='/courseDetailes/:id' element={<CourseDetailes />} />
-        <Route path='/courseContents/:id' element={authUser ? <CourseContents /> : <Navigate to='/' />} />
+        <Route path='/courseContents/:id' element={<CourseContents />} />
         <Route path='/ticket' element={<Ticket />} />
         <Route path='/ticketDetailes/:id' element={authUser ? <TicketDetailes /> : <Navigate to='/' />} />
         <Route path='/panel' element={authUser ? <UserPanel /> : <Navigate to='/login' />} />
