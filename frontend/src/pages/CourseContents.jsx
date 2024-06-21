@@ -29,7 +29,7 @@ const CourseContents = () => {
               <DownloadBox />
             </aside>
             <div className="lg:col-span-2">
-              <Questions episodeId={episodeId} />
+              <Questions episode={episode} />
             </div>
           </div>
         </>

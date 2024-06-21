@@ -217,7 +217,7 @@ const questionFileUploader = async (file, req) => {
 
   const attachment = file
 
-  if (!attachment.mimetype.startsWith('application/zip')) {
+  if (!attachment.mimetype.startsWith('application/zip') && !attachment.mimetype.startsWith('application/x-zip-compressed')) {
     throw new CustomError.BadRequestError('only *.ZIP files allowed!');
   }
 

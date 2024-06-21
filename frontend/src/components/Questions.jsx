@@ -6,14 +6,14 @@ import MessageContainer from './MessageContainer';
 import { BsPatchQuestionFill } from "react-icons/bs";
 import useGetEpisodeQuestions from '../hooks/useGetEpisodeQuestions';
 
-const Questions = ({ episodeId }) => {
+const Questions = ({ episode }) => {
 
   const { loading, getQuestions, question } = useGetEpisodeQuestions()
   const [refetchQuestions, setRefetchQuestions] = useState(false)
 
   useEffect(() => {
-    getQuestions(episodeId)
-  }, [episodeId, refetchQuestions])
+    getQuestions(episode._id)
+  }, [refetchQuestions])
 
   return (
     <div className='bg-base-200 p-4 rounded-box'>
@@ -21,7 +21,7 @@ const Questions = ({ episodeId }) => {
         <BsPatchQuestionFill className='text-2xl text-emerald-500' />
         Ask a question
       </p>
-      <NewQuestion />
+      <NewQuestion refetch={setRefetchQuestions} episode={episode} />
       <div className="divider"></div>
       {
         loading &&
