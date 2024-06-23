@@ -7,7 +7,7 @@ const SimilarProductCart = ({ course }) => {
   return (
     <div className="bg-base-300 p-2 w-full max-w-96 rounded-box shadow-xl flex items-center gap-2">
       <div className="max-w-24 bg-lime-500 rounded-box">
-        <img className='object-contain rounded' src={course.cover.length ? course.cover : fallBackCourseCover} alt="" />
+        <img className='object-contain rounded' src={course.cover.length ? `/api/file/course/${course.cover}` : fallBackCourseCover} alt="" />
       </div>
       <div className="flex flex-col w-full gap-2">
         <h6 className="font-semibold text-white">

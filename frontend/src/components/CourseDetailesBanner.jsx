@@ -22,7 +22,7 @@ const CourseDetailesBanner = ({ course }) => {
         <video
           className='w-full aspect-video rounded-box'
           src={course.intro}
-          poster={course.cover.length ? course.cover : fallBackCourseCover}
+          poster={course.cover.length ? `/api/file/course/${course.cover}` : fallBackCourseCover}
           controls>
         </video>
       </div>

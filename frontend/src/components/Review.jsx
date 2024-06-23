@@ -18,7 +18,7 @@ const Review = ({ review }) => {
       <div className="flex items-center gap-2">
         <div className="avatar">
           <div className="w-16 lg:w-18 mask mask-circle">
-            <img className='aspect-square object-contain' src={review.user.profile.length ? review.user.profile : fallBackUserProfile} />
+            <img className='aspect-square object-contain' src={review.user.profile.length ? `/api/file/profile/${review.user.profile}` : fallBackUserProfile} />
           </div>
         </div>
         <div className="flex flex-col">

@@ -13,7 +13,7 @@ const Instructor = ({ teacher }) => {
       <div className="flex items-center gap-2 pt-2">
         <div className="avatar">
           <div className="w-20 mask mask-squircle">
-            <img src={teacher.user.profile.length ? teacher.user.profile : fallBackUserProfile} />
+            <img src={teacher.user.profile.length ? `/api/file/profile/${teacher.user.profile}` : fallBackUserProfile} />
           </div>
         </div>
         <div className="flex flex-col gap-2">

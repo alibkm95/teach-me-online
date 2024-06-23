@@ -40,8 +40,8 @@ const updateUserInfos = async (req, res) => {
   user.name = name
 
   if (profileImage) {
-    const uploadedImagePath = await uploadUserProfile(profileImage, req)
-    user.profile = uploadedImagePath
+    const uploadedImagename = await uploadUserProfile(profileImage)
+    user.profile = uploadedImagename
   }
 
   await user.save()
@@ -77,7 +77,7 @@ const getUserCourses = async (req, res) => {
   res.status(StatusCodes.OK).json({ userCourses })
 }
 
-const uploadUserProfile = async (file, req) => {
+const uploadUserProfile = async (file) => {
 
   if (!file) return ''
 
@@ -107,11 +107,10 @@ const uploadUserProfile = async (file, req) => {
 
   try {
     await profileImage.mv(imagePath);
+    return fileName
   } catch (error) {
     throw new CustomError.BadRequestError('upload file error')
   }
-
-  return `${req.protocol}://${req.get('host')}/uploads/profile/${fileName}`
 }
 
 module.exports = {

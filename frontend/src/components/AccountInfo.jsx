@@ -65,7 +65,9 @@ const AccountInfo = () => {
       <div className="flex flex-col items-center gap-2 justify-center">
         <div className="avatar">
           <div className="w-24 mask mask-squircle">
-            <img src={authUser.profile.length ? authUser.profile : fallBackUserProfile} />
+            <img
+              src={authUser.profile.length ? `/api/file/profile/${authUser.profile}` : fallBackUserProfile}
+            />
           </div>
         </div>
         <p className="text-2xl font-bold capitalize">

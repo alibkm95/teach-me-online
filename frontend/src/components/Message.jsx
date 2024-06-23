@@ -14,7 +14,7 @@ const Message = ({ msg }) => {
     <div className={`chat ${msg.sender.role === 'USER' ? 'chat-start' : 'chat-end'}`}>
       <div className="chat-image avatar">
         <div className="w-10 rounded-full">
-          <img alt="profile" src={msg.sender.profile.length ? msg.sender.profile : fallBackUserProfile} />
+          <img alt="profile" src={msg.sender.profile.length ? `/api/file/profile/${msg.sender.profile}` : fallBackUserProfile} />
         </div>
       </div>
       <div className="chat-header">
@@ -25,7 +25,7 @@ const Message = ({ msg }) => {
         {msg.message}
         {
           msg.attachment.length > 0 &&
-          <a href={msg.attachment} className='link link-hover block w-max glass px-4 rounded mt-4 bg-amber-500'>
+          <a href={`/api/file/attachment/${msg.attachment}`} className='link link-hover block w-max glass px-4 rounded mt-4 bg-amber-500'>
             Attachment
           </a>
         }

@@ -11,7 +11,7 @@ const ProductCart = ({ course }) => {
   return (
     <div className=''>
       <div className="card card-compact max-w-96 bg-base-100 shadow-xl">
-        <figure><img className='object-cover' src={course.cover.length ? course.cover : fallBackCourseCover} alt="Shoes" /></figure>
+        <figure><img className='object-cover' src={course.cover.length ? `/api/file/course/${course.cover}` : fallBackCourseCover} alt="Shoes" /></figure>
         <div className="card-body">
           <h2 className="card-title">
             <Link className='hover:text-emerald-700 line-clamp-1' to={`/courseDetailes/${course._id}`}>

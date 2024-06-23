@@ -27,7 +27,7 @@ const Actions = () => {
         <Link to='/panel' className="btn btn-sm px-2 btn-ghost md:btn-md hover:bg-base-100">
           <img
             className='w-8 h-8 rounded-full lg:w-10 lg:h-10'
-            src={authUser && authUser.profile.length ? authUser.profile : fallBackUserProfile}
+            src={authUser && authUser.profile.length ? `/api/file/profile/${authUser.profile}` : fallBackUserProfile}
             alt=""
           />
         </Link>

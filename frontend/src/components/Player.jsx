@@ -13,7 +13,7 @@ const Player = ({ episode }) => {
           className='w-full aspect-video bg-neutral rounded-box'
           controls
           src={episode.video}
-          poster={episode.course.cover.length ? episode.course.cover : fallBackCourseCover}
+          poster={episode.course.cover.length ? `/api/file/course/${episode.course.cover}` : fallBackCourseCover}
         >
         </video>
       </div>
