@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 
 import { useAuthContext } from '../context/AuthContext';
+import useUpdateUser from '../hooks/useUpdateUser';
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import fallBackUserProfile from '../assets/fallBackUserProfile.png'
 
 import { FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { IoFingerPrint } from "react-icons/io5";
-import useUpdateUser from '../hooks/useUpdateUser';
 
 const AccountInfo = () => {
 
@@ -17,6 +19,7 @@ const AccountInfo = () => {
   const [oldPassword, setOldPassword] = useState('')
   const [profileImage, setProfileImage] = useState(null)
   const { loading, updateUser } = useUpdateUser()
+  const navigate = useNavigate()
 
   useEffect(() => {
     setUserName(authUser.name)
@@ -51,7 +54,21 @@ const AccountInfo = () => {
   }
 
   const handleLogout = async () => {
-    console.log('logOut')
+    const res = await fetch('/api/auth/logout', {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" }
+    })
+
+    const data = await res.json()
+
+    if (res.status === 200) {
+      toast.success(data.msg)
+      setAuthUser(null)
+      localStorage.removeItem('user')
+      return navigate('/')
+    }
+
+    toast.error(data.msg)
   }
 
   const handleAttachFile = (e) => {

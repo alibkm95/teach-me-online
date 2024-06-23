@@ -47,7 +47,7 @@ const sendAttachmentFile = async (req, res) => {
     throw new CustomError.NotFoundError('requested file dose not exsist or removed!')
   }
 
-  res.sendFile(filePath)
+  res.download(filePath)
 }
 
 module.exports = {

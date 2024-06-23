@@ -33,9 +33,9 @@ const createNewCourse = async (req, res) => {
     description
   }
 
-  const coverImageLink = await uploadCourseCover(coverImage, req)
+  const coverImageName = await uploadCourseCover(coverImage)
 
-  queryObj.cover = coverImageLink
+  queryObj.cover = coverImageName
   queryObj.instructor = instructor._id
   queryObj.requirements = requirements && requirements.length ? requirements : []
   queryObj.categories = categories && categories.length ? categories : []
@@ -293,7 +293,7 @@ const deleteCourse = async (req, res) => {
 
 }
 
-const uploadCourseCover = async (file, req) => {
+const uploadCourseCover = async (file) => {
 
   if (!file) return ''
 
@@ -322,12 +322,11 @@ const uploadCourseCover = async (file, req) => {
   const imagePath = path.join(__dirname, `../public/assets/courses/${fileName}`);
 
   try {
-    await coverImage.mv(imagePath);
+    await coverImage.mv(imagePath)
+    return fileName
   } catch (error) {
     throw new CustomError.BadRequestError('upload file error')
   }
-
-  return `${req.protocol}://${req.get('host')}/assets/courses/${fileName}`
 }
 
 const userHasAccess = async (req, res) => {

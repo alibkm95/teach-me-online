@@ -51,7 +51,7 @@ const getUserTickets = async (req, res) => {
     throw new CustomError.NotFoundError('there is no tickets!')
   }
 
-  res.status(StatusCodes.OK).json({ tickets, count: tickets.length })
+  res.status(StatusCodes.OK).json({ tickets })
 }
 
 const getSingleTicket = async (req, res) => {

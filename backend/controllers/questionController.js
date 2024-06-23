@@ -10,7 +10,7 @@ const makeQuestion = async (req, res) => {
   const { episodeId, message } = req.body
   const file = req.files ? req.files.attachment : null
 
-  let uploadedFilePath = ''
+  let uploadedFileName = ''
 
   if (!episodeId || !message) {
     throw new CustomError.BadRequestError('required fields is not provided!')
@@ -31,7 +31,7 @@ const makeQuestion = async (req, res) => {
   }
 
   if (file) {
-    uploadedFilePath = await questionFileUploader(file, req)
+    uploadedFileName = await questionFileUploader(file)
   }
 
   const existingQuestion = await Question.findOne({
@@ -55,7 +55,7 @@ const makeQuestion = async (req, res) => {
       sender: req.user.userId,
       question: newQuestion._id,
       message,
-      attachment: uploadedFilePath
+      attachment: uploadedFileName
     })
 
     if (!msg) {
@@ -80,7 +80,7 @@ const makeQuestion = async (req, res) => {
     sender: req.user.userId,
     question: existingQuestion._id,
     message,
-    attachment: uploadedFilePath
+    attachment: uploadedFileName
   })
 
   if (!newMsg) {
@@ -108,7 +108,7 @@ const addAnswer = async (req, res) => {
   const { answer } = req.body
   const file = req.files ? req.files.attachment : null
 
-  let uploadedFilePath = ''
+  let uploadedFileName = ''
 
   if (!answer) {
     throw new CustomError.BadRequestError('answer to this question is required!')
@@ -121,14 +121,14 @@ const addAnswer = async (req, res) => {
   }
 
   if (file) {
-    uploadedFilePath = await questionFileUploader(file, req)
+    uploadedFileName = await questionFileUploader(file)
   }
 
   const newMessage = await QuestionConversation.create({
     sender: req.user.userId,
     question: question._id,
     message: answer,
-    attachment: uploadedFilePath
+    attachment: uploadedFileName
   })
 
   if (!newMessage) {
@@ -206,7 +206,7 @@ const getSingleQuestion = async (req, res) => {
   res.status(StatusCodes.OK).json({ question })
 }
 
-const questionFileUploader = async (file, req) => {
+const questionFileUploader = async (file) => {
   if (!file) return ''
 
   const attachmentsDirectory = path.join(__dirname, '../public/uploads/attachments');
@@ -234,12 +234,11 @@ const questionFileUploader = async (file, req) => {
   const attachmentPath = path.join(__dirname, `../public/uploads/attachments/${fileName}`);
 
   try {
-    await attachment.mv(attachmentPath);
+    await attachment.mv(attachmentPath)
+    return fileName
   } catch (error) {
     throw new CustomError.BadRequestError('upload file error')
   }
-
-  return `${req.protocol}://${req.get('host')}/uploads/attachments/${fileName}`
 }
 
 module.exports = {
