@@ -10,7 +10,7 @@ const createTicket = async (req, res) => {
   const { subject, message } = req.body
   const file = req.files ? req.files.attachment : null
 
-  let uploadedFilePath = ''
+  let uploadedFileName = ''
 
   if (!subject || !message) {
     throw new CustomError.BadRequestError('required fields are not provided!')
@@ -26,14 +26,14 @@ const createTicket = async (req, res) => {
   }
 
   if (file) {
-    uploadedFilePath = await ticketFileUploader(file, req)
+    uploadedFileName = await ticketFileUploader(file)
   }
 
   const newMessage = await TicketConversation.create({
     sender: req.user.userId,
     ticket: ticket._id,
     message,
-    attachment: uploadedFilePath
+    attachment: uploadedFileName
   })
 
   if (!newMessage) {
@@ -87,7 +87,7 @@ const addNewMessage = async (req, res) => {
   const { newMessage } = req.body
   const file = req.files ? req.files.attachment : null
 
-  let uploadedFilePath = ''
+  let uploadedFileName = ''
 
   let ticket = await Ticket.findOne({ _id: ticketId })
     .populate({
@@ -108,14 +108,14 @@ const addNewMessage = async (req, res) => {
   }
 
   if (file) {
-    uploadedFilePath = await ticketFileUploader(file, req)
+    uploadedFileName = await ticketFileUploader(file)
   }
 
   const newMessageInserting = await TicketConversation.create({
     sender: req.user.userId,
     ticket: ticketId,
     message: newMessage,
-    attachment: uploadedFilePath
+    attachment: uploadedFileName
   })
 
   if (!newMessageInserting) {
@@ -178,7 +178,7 @@ const deleteTicket = async (req, res) => {
   res.status(StatusCodes.OK).json({ msg: 'ticket deleted successfully' })
 }
 
-const ticketFileUploader = async (file, req) => {
+const ticketFileUploader = async (file) => {
   if (!file) return ''
 
   const attachmentsDirectory = path.join(__dirname, '../public/uploads/attachments');
@@ -189,7 +189,7 @@ const ticketFileUploader = async (file, req) => {
 
   const attachment = file
 
-  if (!attachment.mimetype.startsWith('application/zip')) {
+  if (!attachment.mimetype.startsWith('application/zip') && !attachment.mimetype.startsWith('application/x-zip-compressed')) {
     throw new CustomError.BadRequestError('only *.ZIP files allowed!');
   }
 
@@ -206,12 +206,11 @@ const ticketFileUploader = async (file, req) => {
   const attachmentPath = path.join(__dirname, `../public/uploads/attachments/${fileName}`);
 
   try {
-    await attachment.mv(attachmentPath);
+    await attachment.mv(attachmentPath)
+    return fileName
   } catch (error) {
     throw new CustomError.BadRequestError('upload file error')
   }
-
-  return `${req.protocol}://${req.get('host')}/uploads/attachments/${fileName}`
 }
 
 module.exports = {

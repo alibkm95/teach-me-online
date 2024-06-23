@@ -2,7 +2,14 @@ import React from 'react'
 
 import { FaTicketAlt } from "react-icons/fa";
 
-const TicketInfos = () => {
+const TicketInfos = ({ ticket }) => {
+
+  const statusOpt = {
+    answered: ['answered', 'text-whiet bg-success'],
+    pending: ['pending', 'text-black bg-warning'],
+    closed: ['closed', 'text-white bg-error']
+  }
+
   return (
     <div className='bg-base-200 p-4 rounded-box flex flex-col gap-4'>
       <p className="flex items-center gap-2 pb-2 ps-4 border-b border-b-gray-700 text-2xl font-bold">
@@ -11,28 +18,26 @@ const TicketInfos = () => {
       </p>
       <ul className="flex flex-col gap-2 ps-2">
         <li className="text-2xl">
-          Title:
+          Subject:
         </li>
         <li>
-          the tickets title
+          {ticket.subject}
         </li>
         <li className="text-2xl">
           Status:
         </li>
-        <li className='text-success'>
-          answered
-        </li>
-        <li className='text-warning'>
-          waiting
-        </li>
-        <li className='text-error'>
-          closed
+        <li>
+          <span
+            className={`block m-1 p-2 text-sm w-max rounded-full ${statusOpt[ticket.ticketStatus][1]}`}
+          >
+            {statusOpt[ticket.ticketStatus][0]}
+          </span>
         </li>
         <li className="text-2xl">
           Create at:
         </li>
         <li>
-          2024-11-18 01:26
+          {new Date(ticket.createdAt).toLocaleDateString()}
         </li>
       </ul>
     </div>

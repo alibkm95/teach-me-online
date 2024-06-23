@@ -1,14 +1,14 @@
 import React from 'react'
 
-import NewQuestion from './NewQuestion';
-import Conversations from './Conversations'
+import NewMessage from './NewMessage';
+import MessageContainer from './MessageContainer';
 
-const TicketConversations = () => {
+const TicketConversations = ({ ticket, refetch }) => {
   return (
     <div className='bg-base-200 p-4 rounded-box'>
-      <Conversations />
+      <MessageContainer question={ticket} />
       <div className="divider"></div>
-      <NewQuestion />
+      <NewMessage refetch={refetch} ticketId={ticket._id} />
     </div>
   )
 }

@@ -36,7 +36,7 @@ function App() {
         <Route path='/courseDetailes/:id' element={<CourseDetailes />} />
         <Route path='/courseContents/:id' element={<CourseContents />} />
         <Route path='/ticket' element={<Ticket />} />
-        <Route path='/ticketDetailes/:id' element={authUser ? <TicketDetailes /> : <Navigate to='/' />} />
+        <Route path='/ticketDetailes/:id' element={<TicketDetailes />} />
         <Route path='/panel' element={authUser ? <UserPanel /> : <Navigate to='/login' />} />
         <Route path='/payment/:id' element={authUser ? <Payment /> : <Navigate to='/login' />} />
         <Route path='/articles' element={<Articles />} />
