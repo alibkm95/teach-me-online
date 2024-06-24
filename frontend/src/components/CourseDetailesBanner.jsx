@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import useCourseAccess from '../hooks/useCourseAccess';
 
@@ -6,15 +6,27 @@ import { FaBookOpen } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
 import { FaMoneyCheckDollar } from "react-icons/fa6";
 import { FaCartPlus } from "react-icons/fa6";
+import { FaTrashCan } from "react-icons/fa6";
+import { FaCheckCircle } from "react-icons/fa";
 
 import fallBackCourseCover from '../assets/fallBackCourseCover.png'
+import { MenuContext } from '../context/MenuAndCartConext';
 
 const CourseDetailesBanner = ({ course }) => {
+  const { addToCart, removeCourseFromCart, cartItems } = useContext(MenuContext)
   const { hasAccessToCourse, courseAccess } = useCourseAccess()
 
   useEffect(() => {
     hasAccessToCourse(course._id)
   }, [])
+
+  const isInCart = () => {
+    const existingCourse = cartItems.find(item => {
+      return item._id === course._id
+    })
+    if (existingCourse) { return true }
+    return false
+  }
 
   return (
     <div className='grid grid-cols-1 gap-6 lg:grid-cols-2'>
@@ -49,14 +61,29 @@ const CourseDetailesBanner = ({ course }) => {
           }
           {
             !courseAccess &&
+            isInCart() === false &&
             <>
               <span className='text-white flex items-center gap-1'>
                 <FaUser size={25} className='text-emerald-600' />
                 You are not subscribed to this course.
               </span>
-              <button className="btn btn-success rounded-full text-white">
+              <button className="btn btn-success rounded-full text-white" onClick={() => { addToCart(course) }}>
                 <FaCartPlus size={25} />
                 add to cart
+              </button>
+            </>
+          }
+          {
+            !courseAccess &&
+            isInCart() === true &&
+            <>
+              <span className='text-white flex items-center gap-1'>
+                <FaCheckCircle size={25} className='text-emerald-600' />
+                Course added to your shopping cart.
+              </span>
+              <button className="btn btn-error rounded-full text-white" onClick={() => { removeCourseFromCart(course) }}>
+                <FaTrashCan size={25} />
+                remove
               </button>
             </>
           }

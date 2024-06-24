@@ -12,13 +12,19 @@ import { IoClose } from "react-icons/io5";
 
 const Actions = () => {
 
-  const { isMenuOpen, toggleMenu, isCartOpen, toggleCart } = useContext(MenuContext)
+  const { isMenuOpen, toggleMenu, isCartOpen, toggleCart, cartItems } = useContext(MenuContext)
   const { authUser } = useAuthContext()
 
   return (
     <div className='flex'>
       <div className="indicator">
-        <span className="indicator-item top-1 right-2 badge badge-sm badge-error text-white md:top-3 md:right-4">0</span>
+        {
+          cartItems.length > 0 &&
+          <span className="indicator-item top-1 right-2 badge badge-sm badge-error text-white md:top-3 md:right-4">
+            {cartItems.length > 9 ? '9+' : cartItems.length}
+
+          </span>
+        }
         <button onClick={toggleCart} className="btn btn-sm px-2 btn-ghost md:btn-md hover:bg-base-100">
           <FaBagShopping className='text-2xl lg:text-3xl' />
         </button>

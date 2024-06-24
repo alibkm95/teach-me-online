@@ -38,7 +38,7 @@ function App() {
         <Route path='/ticket' element={<Ticket />} />
         <Route path='/ticketDetailes/:id' element={<TicketDetailes />} />
         <Route path='/panel' element={authUser ? <UserPanel /> : <Navigate to='/login' />} />
-        <Route path='/payment/:id' element={authUser ? <Payment /> : <Navigate to='/login' />} />
+        <Route path='/payment' element={authUser ? <Payment /> : <Navigate to='/login' />} />
         <Route path='/articles' element={<Articles />} />
         <Route path='/article/:id' element={<Article />} />
         <Route path='*' element={<NotFound />} />

@@ -13,11 +13,8 @@ const CreateSwiper = ({ courses }) => {
     <Swiper
       slidesPerView={1}
       spaceBetween={20}
-      autoplay={{
-        delay: 4000,
-        disableOnInteraction: false,
-      }}
-      loop={true}
+      autoplay={courses.length > 4 ? { delay: 4000, disableOnInteraction: false, } : {}}
+      loop={courses.length > 4 ? true : false}
       grabCursor={true}
       pagination={{
         clickable: true,
@@ -41,7 +38,7 @@ const CreateSwiper = ({ courses }) => {
       className="mySwiper"
     >
       {
-        courses.map(course => (
+        courses.slice(0, 12).map(course => (
           <SwiperSlide key={course._id}>
             <ProductCart course={course} />
           </SwiperSlide>

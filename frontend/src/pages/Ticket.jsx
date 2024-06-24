@@ -25,6 +25,7 @@ const Ticket = () => {
     setLoading(true)
 
     if (!title.trim().length || !message.trim().length) {
+      setLoading(false)
       return toast.error('required fields are empty!')
     }
 

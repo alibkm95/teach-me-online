@@ -1,8 +1,20 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { Link } from 'react-router-dom';
+
+import { MenuContext } from '../context/MenuAndCartConext';
+import useInvoice from '../hooks/useInvoice';
 
 import { FaDollarSign } from "react-icons/fa6";
 
 const Invoice = () => {
+  const { clearCart, toggleCart } = useContext(MenuContext)
+  const { subTotal, discount, tax, total } = useInvoice()
+
+  const handleClear = () => {
+    clearCart()
+    toggleCart()
+  }
+
   return (
     <>
       <div className="flex gap-2">
@@ -18,16 +30,16 @@ const Invoice = () => {
         </button>
       </div>
       <div className="flex flex-col p-2">
-        <p className='flex items-center'>Subtotal: 842.50 <FaDollarSign className='text-emerald-600 inline' /></p>
-        <p className='flex items-center'>Discount: 32.00 <FaDollarSign className='text-emerald-600 inline' /></p>
-        <p className='flex items-center'>Taxt: 18.60 <FaDollarSign className='text-emerald-600 inline' /></p>
-        <p className='flex items-center font-bold'>Totla: 829.10 <FaDollarSign className='text-emerald-600 inline' /></p>
+        <p className='flex items-center'>Subtotal: {subTotal} <FaDollarSign className='text-emerald-600 inline' /></p>
+        <p className='flex items-center'>Discount: {discount} <FaDollarSign className='text-emerald-600 inline' /></p>
+        <p className='flex items-center'>Taxt: {tax} <FaDollarSign className='text-emerald-600 inline' /></p>
+        <p className='flex items-center font-bold'>Totla: {total} <FaDollarSign className='text-emerald-600 inline' /></p>
       </div>
       <div className="flex flex-col gap-2">
-        <button className="btn btn-success btn-sm text-white">
+        <Link to='/payment' className="btn btn-success btn-sm text-white" onClick={toggleCart}>
           Continue purchase
-        </button>
-        <button className="btn btn-error btn-sm text-white">
+        </Link>
+        <button className="btn btn-error btn-sm text-white" onClick={handleClear}>
           Clear all
         </button>
       </div>

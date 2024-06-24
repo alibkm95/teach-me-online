@@ -1,21 +1,34 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { Link } from 'react-router-dom'
 
-import Pattern from '../assets/pattern.png'
+import fallBackCourseCover from '../assets/fallBackCourseCover.png'
 
 import { FaTrashCan } from "react-icons/fa6"
 import { FaDollarSign } from "react-icons/fa6"
+import { MenuContext } from '../context/MenuAndCartConext'
 
-const ProductCartSM = () => {
+const ProductCartSM = ({ course, onRemove }) => {
+
+  const { toggleCart } = useContext(MenuContext)
+
   return (
-    <div className='flex items-center rounded-box bg-base-200 p-2 gap-2'>
-      <div className="w-24">
-        <img className='aspect-square w-full block rounded-box bg-neutral-900' src={Pattern} alt="" />
+    <div className='flex flex-col rounded-box bg-base-200 p-2 gap-2 border border-gray-700'>
+      <div className="">
+        <img className='w-full block rounded-box bg-neutral-900' src={course.cover.length ? `/api/file/course/${course.cover}` : fallBackCourseCover} alt="" />
       </div>
-      <div className="flex-1">
-        <p className='font-bold mb-3'>The title of Product</p>
+      <div className="px-4 mt-4">
+        <p className='font-bold mb-3'>
+          <Link
+            to={`/courseDetailes/${course._id}`}
+            className='link link-hover hover:text-emerald-600'
+            onClick={toggleCart}
+          >
+            {course.title}
+          </Link>
+        </p>
         <div className="flex items-center justify-between">
-          <p className='flex items-center'>price: 140.00 <FaDollarSign className='text-emerald-600 inline' /></p>
-          <button className="btn btn-error btn-sm btn-circle">
+          <p className='flex items-center'>price: {course.price} <FaDollarSign className='text-emerald-600 inline' /></p>
+          <button className="btn btn-error btn-sm btn-circle" onClick={() => { onRemove(course) }}>
             <FaTrashCan className='text-white' />
           </button>
         </div>

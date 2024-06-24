@@ -26,12 +26,12 @@ router
   .post(authenticateUser, authorizePermissions('INSTRUCTOR'), createNewCourse)
 
 router
-  .route('/season/:id')
-  .post(authenticateUser, authorizePermissions('INSTRUCTOR', 'ROOTADMIN'), addSeason)
+  .route('/subscribe')
+  .post(authenticateUser, subscribeUserToCourse)
 
 router
-  .route('/subscribe/:id')
-  .post(authenticateUser, subscribeUserToCourse)
+  .route('/season/:id')
+  .post(authenticateUser, authorizePermissions('INSTRUCTOR', 'ROOTADMIN'), addSeason)
 
 router
   .route('/episode/:courseId/:seasonId')

@@ -108,26 +108,35 @@ const addEpisode = async (req, res) => {
 }
 
 const subscribeUserToCourse = async (req, res) => {
-  const { id: courseId } = req.params
+  const { candidateCourses } = req.body
 
-  const course = await Course.findOne({ _id: courseId })
-
-  if (!course) {
-    throw new CustomError.NotFoundError('there is no course with provided informations!')
+  if (!candidateCourses || !Array.isArray(candidateCourses)) {
+    throw new CustomError.BadRequestError('Invalid request. Course IDs must be an array.')
   }
 
-  const isAlreadySubscribed = await UserCourse.findOne({ course: course._id, user: req.user.userId })
-
-  if (isAlreadySubscribed) {
-    throw new CustomError.BadRequestError('you already subscribed to this course')
+  if (!candidateCourses.length) {
+    throw new CustomError.BadRequestError('Atleast one course for subscription opreation must be provided!')
   }
 
-  const userCourse = await UserCourse.create({
+  const courses = await Course.find({ _id: { $in: candidateCourses } })
+
+  if (courses.length !== candidateCourses.length) {
+    throw new CustomError.NotFoundError('One or more courses not found.');
+  }
+
+  const isAlreadySubscribed = await UserCourse.find({ user: req.user.userId, course: { $in: candidateCourses } })
+
+  if (isAlreadySubscribed.length > 0) {
+    throw new CustomError.BadRequestError('You are already subscribed to one or more of these courses.')
+  }
+
+  const userCourses = courses.map(course => ({
     user: req.user.userId,
     course: course._id
-  })
+  }))
 
-  res.status(StatusCodes.CREATED).json({ course })
+  await UserCourse.insertMany(userCourses)
+  res.status(StatusCodes.CREATED).json({ success: true, msg: "subscription to course(s) completed." })
 }
 
 const getAllCourses = async (req, res) => {
