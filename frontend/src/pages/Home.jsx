@@ -16,7 +16,7 @@ const Home = () => {
       <LatestCourses />
       <FrontendCourses />
       <BackendCourses />
-      {/* <LatestArticles /> */}
+      <LatestArticles />
       <FAQ />
     </div>
   )
