@@ -25,7 +25,7 @@ const ArticleSchema = new mongoose.Schema({
   },
   creator: {
     type: mongoose.Types.ObjectId,
-    ref: 'User',
+    ref: 'Instructor',
     required: true
   },
   isPublished: {

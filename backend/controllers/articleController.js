@@ -1,4 +1,5 @@
 const Article = require('../models/Article')
+const Instructor = require('../models/Instructor')
 const { StatusCodes } = require('http-status-codes')
 const CustomError = require('../errors')
 const fs = require('fs')
@@ -28,14 +29,20 @@ const createArticle = async (req, res) => {
     throw new CustomError.BadRequestError('poster image must be provided!')
   }
 
-  const uploadedImagePath = await articleImageUploader(file, req)
+  const instructor = await Instructor.findOne({ user: req.user.userId })
+
+  if (!instructor) {
+    throw new CustomError.BadRequestError('there is no instructor to assign as article writer!')
+  }
+
+  const uploadedFileName = await articleImageUploader(file)
 
   try {
     const article = await Article.create({
       title,
-      poster: uploadedImagePath,
+      poster: uploadedFileName,
       paragraphs,
-      creator: req.user.userId,
+      creator: instructor._id,
       references: references ? references : []
     })
 
@@ -57,10 +64,6 @@ const getArticles = async (req, res) => {
   }
 
   let result = Article.find(queryObj)
-    .populate({
-      path: 'creator',
-      select: 'name profile role'
-    })
 
   const sortOptions = {
     newest: '-createdAt',
@@ -75,17 +78,9 @@ const getArticles = async (req, res) => {
     result = result.sort('-createdAt')
   }
 
-  const page = Number(req.query.page) || 1
-  const limit = 12
-  const skip = (page - 1) * limit
-
-  result = result.skip(skip).limit(limit)
-
   const articles = await result
-  const totalArticles = await Article.countDocuments(queryObj)
-  const numOfPages = Math.ceil(totalArticles / limit)
 
-  res.status(StatusCodes.OK).json({ articles, totalArticles, numOfPages })
+  res.status(StatusCodes.OK).json({ articles })
 }
 
 const getSingleArticle = async (req, res) => {
@@ -94,7 +89,10 @@ const getSingleArticle = async (req, res) => {
   const article = await Article.findOne({ _id: articleId })
     .populate({
       path: 'creator',
-      select: 'name profie role'
+      populate: {
+        path: 'user',
+        select: 'name profile role'
+      }
     })
 
   if (!article) {
@@ -104,7 +102,7 @@ const getSingleArticle = async (req, res) => {
   res.status(StatusCodes.OK).json({ article })
 }
 
-const articleImageUploader = async (file, req) => {
+const articleImageUploader = async (file) => {
   if (!file) return ''
 
   const posterDirectory = path.join(__dirname, '../public/assets/articles');
@@ -132,12 +130,11 @@ const articleImageUploader = async (file, req) => {
   const posterPath = path.join(__dirname, `../public/assets/articles/${fileName}`);
 
   try {
-    await posterImage.mv(posterPath);
+    await posterImage.mv(posterPath)
+    return fileName
   } catch (error) {
     throw new CustomError.BadRequestError('upload file error')
   }
-
-  return `${req.protocol}://${req.get('host')}/assets/articles/${fileName}`
 }
 
 module.exports = {
