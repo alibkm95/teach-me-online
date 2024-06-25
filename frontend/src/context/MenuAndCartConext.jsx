@@ -44,6 +44,19 @@ export const MenuProvider = ({ children }) => {
     setRefetchCartItems(prev => !prev)
   }
 
+  const rearrangeCarts = (userCourses) => {
+    const existingCartCourses = JSON.parse(localStorage.getItem('cart')) || []
+
+    if (existingCartCourses.length) {
+      const updatedCartCourses = existingCartCourses.filter(course => {
+        return !userCourses.find(userCourse => userCourse.course._id === course._id)
+      })
+
+      localStorage.setItem('cart', JSON.stringify(updatedCartCourses))
+      setRefetchCartItems(prev => !prev)
+    }
+  }
+
   const clearCart = () => {
     localStorage.removeItem('cart')
     setRefetchCartItems(prev => !prev)
@@ -59,6 +72,7 @@ export const MenuProvider = ({ children }) => {
         cartItems,
         addToCart,
         removeCourseFromCart,
+        rearrangeCarts,
         clearCart
       }}
     >

@@ -11,7 +11,7 @@ import { IoClose } from "react-icons/io5";
 const ShoppingCart = () => {
 
   const { authUser } = useAuthContext()
-  const { isCartOpen, toggleCart, cartItems, removeCourseFromCart } = useContext(MenuContext)
+  const { isCartOpen, toggleCart, cartItems, removeCourseFromCart, rearrangeCarts } = useContext(MenuContext)
   const { userCourses, getUserCourses } = useGetUserCourses()
 
   useEffect(() => {
@@ -21,12 +21,8 @@ const ShoppingCart = () => {
   }, [authUser])
 
   useEffect(() => {
-    if (userCourses.length) {
-      cartItems.map(item => {
-        if (userCourses.some(userCourse => userCourse.course._id === item._id)) {
-          removeCourseFromCart(item)
-        }
-      })
+    if (userCourses.length > 0) {
+      rearrangeCarts(userCourses)
     }
   }, [userCourses])
 
