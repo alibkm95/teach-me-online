@@ -1,6 +1,6 @@
 const { createJWT, isTokenValid, attachCookiesToResponse } = require('./jwt');
 const createTokenUser = require('./createTokenUser');
-const checkpermissions = require('./checkpermissions');
+const checkpermissions = require('./checkPermissions');
 const sendVerificationCode = require('./sendVerificationCode')
 const sendResetPasswordCode = require('./sendResetPasswordCode')
 const createHash = require('./createHash')
