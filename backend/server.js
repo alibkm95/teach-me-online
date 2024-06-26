@@ -7,6 +7,7 @@ const path = require('path')
 
 const cookieParser = require('cookie-parser')
 const fileUpload = require('express-fileupload')
+const dir = path.resolve()
 
 const connectDB = require('./db/connect')
 
@@ -27,6 +28,7 @@ const errorHandlerMiddleware = require('./middlewares/errorHandler')
 app.use(express.json())
 app.use(cookieParser(process.env.COOKIE_SECRET))
 app.use(express.static(path.join(__dirname, './public')))
+app.use(express.static(path.join(dir, '/frontend/dist')))
 app.use(fileUpload())
 
 // ! => routes
@@ -39,6 +41,10 @@ app.use('/api/ticket', ticketRouter)
 app.use('/api/question', questionRouter)
 app.use('/api/article', articleRouter)
 app.use('/api/file', fileRouter)
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(dir, 'frontend', 'dist', 'index.html'))
+})
 
 // ! => err midelwares
 app.use(notFoundMiddleware)

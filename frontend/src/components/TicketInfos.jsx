@@ -5,9 +5,9 @@ import { FaTicketAlt } from "react-icons/fa";
 const TicketInfos = ({ ticket }) => {
 
   const statusOpt = {
-    answered: ['answered', 'text-whiet bg-success'],
-    pending: ['pending', 'text-black bg-warning'],
-    closed: ['closed', 'text-white bg-error']
+    answered: ['answered', 'bg-success text-white'],
+    pending: ['pending', 'bg-warning text-black'],
+    closed: ['closed', 'bg-error text-white']
   }
 
   return (
