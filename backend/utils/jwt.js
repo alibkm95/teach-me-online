@@ -19,7 +19,7 @@ const attachCookiesToResponse = ({ res, user, refreshToken }) => {
     secure: process.env.NODE_ENV === 'production',
     expires: new Date(Date.now() + shortEXP),
     signed: true,
-    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+    sameSite: 'strict',
     path: '/',
   });
 
@@ -28,7 +28,7 @@ const attachCookiesToResponse = ({ res, user, refreshToken }) => {
     secure: process.env.NODE_ENV === 'production',
     expires: new Date(Date.now() + longEXP),
     signed: true,
-    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+    sameSite: 'strict',
     path: '/',
   });
 };
