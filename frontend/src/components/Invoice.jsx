@@ -1,18 +1,28 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import { MenuContext } from '../context/MenuAndCartConext';
 import useInvoice from '../hooks/useInvoice';
 
 import { FaDollarSign } from "react-icons/fa6";
 
 const Invoice = () => {
-  const { clearCart, toggleCart } = useContext(MenuContext)
+  const { clearCart, toggleCart, cartItems } = useContext(MenuContext)
   const { subTotal, discount, tax, total } = useInvoice()
+  const navigate = useNavigate()
 
   const handleClear = () => {
     clearCart()
     toggleCart()
+  }
+
+  const handlepayment = () => {
+    if (!cartItems.length) {
+      toast.error('Your shopping cart is empty!')
+      return toggleCart()
+    }
+
+    navigate('/payment')
   }
 
   return (
@@ -36,9 +46,9 @@ const Invoice = () => {
         <p className='flex items-center font-bold'>Totla: {total} <FaDollarSign className='text-emerald-600 inline' /></p>
       </div>
       <div className="flex flex-col gap-2">
-        <Link to='/payment' className="btn btn-success btn-sm text-white" onClick={toggleCart}>
+        <button className="btn btn-success btn-sm text-white" onClick={handlepayment}>
           Continue purchase
-        </Link>
+        </button>
         <button className="btn btn-error btn-sm text-white" onClick={handleClear}>
           Clear all
         </button>
