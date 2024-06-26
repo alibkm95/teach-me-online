@@ -42,9 +42,8 @@ const AccountInfo = () => {
     if (profileImage) {
       userNewInfos.profileImage = profileImage
     }
-
+    
     const updatedUser = await updateUser(userNewInfos)
-    console.log(updatedUser)
 
     if (updatedUser) {
       setAuthUser(updatedUser)

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { MenuContext } from '../context/MenuAndCartConext';
@@ -16,12 +16,13 @@ const Invoice = () => {
     toggleCart()
   }
 
-  const handlepayment = () => {
+  const handlePayment = () => {
     if (!cartItems.length) {
       toast.error('Your shopping cart is empty!')
       return toggleCart()
     }
 
+    toggleCart()
     navigate('/payment')
   }
 
@@ -46,7 +47,7 @@ const Invoice = () => {
         <p className='flex items-center font-bold'>Totla: {total} <FaDollarSign className='text-emerald-600 inline' /></p>
       </div>
       <div className="flex flex-col gap-2">
-        <button className="btn btn-success btn-sm text-white" onClick={handlepayment}>
+        <button className="btn btn-success btn-sm text-white" onClick={handlePayment}>
           Continue purchase
         </button>
         <button className="btn btn-error btn-sm text-white" onClick={handleClear}>

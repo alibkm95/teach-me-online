@@ -14,12 +14,12 @@ const useUpdateUser = () => {
     formData.append('name', userNewInfos.name)
     formData.append('email', userNewInfos.email)
 
-    if (userNewInfos.newPassword && userNewInfos.OldPassword) {
-      const isNewPasswordValid = validateNewPassword(newPassword)
+    if (userNewInfos.oldPassword && userNewInfos.newPassword) {
+      const isNewPasswordValid = validateNewPassword(userNewInfos.newPassword)
 
       if (isNewPasswordValid) {
         formData.append('newPassword', userNewInfos.newPassword)
-        formData.append('oldPassword', userNewInfos.OldPassword)
+        formData.append('oldPassword', userNewInfos.oldPassword)
       }
     }
 

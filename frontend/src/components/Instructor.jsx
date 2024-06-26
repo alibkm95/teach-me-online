@@ -17,7 +17,7 @@ const Instructor = ({ teacher }) => {
           </div>
         </div>
         <div className="flex flex-col gap-2">
-          <a href='#/' className='link link-hover link-success text-xl font-bold'>Elisabeth Olsen</a>
+          <a href='#/' className='link link-hover link-success text-xl font-bold'>{teacher.user.name}</a>
           <span className='text-sm'>
             Full stack web developer
           </span>
